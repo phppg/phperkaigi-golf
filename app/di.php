@@ -12,9 +12,12 @@ use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Nyholm\Psr7Server\ServerRequestCreator;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Playground\Web\View\HtmlFactory;
+use Psr\Container\ContainerInterface as Container;
 use Psr\Http\Message\{RequestFactoryInterface, RequestInterface, ResponseFactoryInterface, ResponseInterface, ServerRequestFactoryInterface, ServerRequestInterface, StreamFactoryInterface, StreamInterface, UploadedFileFactoryInterface, UploadedFileInterface, UriFactoryInterface, UriInterface};
 use Twig\Environment as Twig;
+use Twig\Extension\OptimizerExtension as TwigOptimizer;
 use Twig\Loader\FilesystemLoader as TwigFilesystemLoader;
+use Twig\NodeVisitor\OptimizerNodeVisitor;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run as Whoops;
 use Whoops\RunInterface as WhoopsInterface;
@@ -26,7 +29,7 @@ use function DI\get;
 $builder = new DI\ContainerBuilder();
 // $builder->enableCompilation(__DIR__ . '/../cache');
 // $builder->writeProxiesToFile(true, __DIR__ . '/../cache/proxies');
-$builder->addDefinitions([
+$builder->addDefinitions((include __DIR__ . '/../config.php') + [
     Chronos::class => create(Chronos::class),
     EmitterInterface::class => create(SapiEmitter::class),
     Psr17Factory::class => create(Psr17Factory::class),
@@ -39,10 +42,20 @@ $builder->addDefinitions([
         ))->fromGlobals();
     }),
     StreamFactoryInterface::class => get(Psr17Factory::class),
-    Twig::class => factory(function () {
-        return new Twig(new TwigFilesystemLoader([__DIR__ . '/tpl']), [
-            'cache' => __DIR__ . '/../cache/twig',
+    Twig::class => factory(function (Container $c) {
+        $is_production = $c->get('is_production');
+
+        $twig = new Twig(new TwigFilesystemLoader([__DIR__ . '/tpl']), [
+            'cache' => $is_production ? __DIR__ . '/../cache/twig' : false,
+            'debug' => !$is_production,
+            'strict_variables' => true,
         ]);
+
+        if ($is_production) {
+            $twig->addExtension(new TwigOptimizer(OptimizerNodeVisitor::OPTIMIZE_ALL));
+        }
+
+        return $twig;
     }),
     UploadedFileFactoryInterface::class => get(Psr17Factory::class),
     UriFactoryInterface::class => get(Psr17Factory::class),
