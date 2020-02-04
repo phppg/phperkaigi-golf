@@ -11,6 +11,7 @@ use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Nyholm\Psr7Server\ServerRequestCreator;
 use Nyholm\Psr7\Factory\Psr17Factory;
+use Playground\Web\View\HtmlFactory;
 use Psr\Http\Message\{RequestFactoryInterface, RequestInterface, ResponseFactoryInterface, ResponseInterface, ServerRequestFactoryInterface, ServerRequestInterface, StreamFactoryInterface, StreamInterface, UploadedFileFactoryInterface, UploadedFileInterface, UriFactoryInterface, UriInterface};
 use Twig\Environment as Twig;
 use Twig\Loader\FilesystemLoader as TwigFilesystemLoader;
@@ -50,6 +51,9 @@ $builder->addDefinitions([
         $whoops->appendHandler(new PrettyPageHandler());
 
         return $whoops;
+    }),
+    HtmlFactory::class => factory(function (Twig $twig) {
+        return new HtmlFactory($twig);
     }),
 ]);
 
