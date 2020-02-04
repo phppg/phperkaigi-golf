@@ -25,7 +25,6 @@ $container = (include __DIR__ . '/../app/di.php');
 $container->get(WhoopsInterface::class)->register();
 
 $router = $container->get(RouterContainer::class);
-$router = (include __DIR__ . '/../app/routes.php');
 
 $_404 = fn(ResponseFactory $factory, StreamFactory $stream, View\HtmlFactory $html): HttpResponse
     => $factory->createResponse(404)->withBody($stream->createStream($html('404', [])));

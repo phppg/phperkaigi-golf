@@ -18,6 +18,7 @@ use Twig\Environment as Twig;
 use Twig\Extension\OptimizerExtension as TwigOptimizer;
 use Twig\Loader\FilesystemLoader as TwigFilesystemLoader;
 use Twig\NodeVisitor\OptimizerNodeVisitor;
+use Twig\TwigFunction;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run as Whoops;
 use Whoops\RunInterface as WhoopsInterface;
@@ -35,14 +36,16 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
     Psr17Factory::class => create(Psr17Factory::class),
     RequestFactoryInterface::class => get(Psr17Factory::class),
     ResponseFactoryInterface::class => get(Psr17Factory::class),
-    RouterContainer::class => create(RouterContainer::class),
+    RouterContainer::class => factory(function () {
+        return include __DIR__ . '/routes.php';
+    }),
     ServerRequestInterface::class => factory(function (Psr17Factory $http_factory) {
         return (new ServerRequestCreator(
             $http_factory, $http_factory, $http_factory, $http_factory
         ))->fromGlobals();
     }),
     StreamFactoryInterface::class => get(Psr17Factory::class),
-    Twig::class => factory(function (Container $c) {
+    Twig::class => factory(function (Container $c, RouterContainer $router) {
         $is_production = $c->get('is_production');
 
         $twig = new Twig(new TwigFilesystemLoader([__DIR__ . '/tpl']), [
@@ -50,6 +53,15 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
             'debug' => !$is_production,
             'strict_variables' => true,
         ]);
+
+        $gen = $router->getGenerator();
+
+        $twig->addFunction(new TwigFunction(
+            'route',
+            function (string $name, array $params = []) use ($gen): string {
+                return $gen->generate($name, $params);
+            }
+        ));
 
         if ($is_production) {
             $twig->addExtension(new TwigOptimizer(OptimizerNodeVisitor::OPTIMIZE_ALL));
