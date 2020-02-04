@@ -1,0 +1,7 @@
+parameters:
+  level: max
+  paths:
+    - app/
+    - public/index.php
+  autoload_files:
+    - vendor/autoload.php
