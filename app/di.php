@@ -12,6 +12,7 @@ use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Nyholm\Psr7Server\ServerRequestCreator;
 use Nyholm\Psr7\Factory\Psr17Factory;
+use Playground\Web\Http;
 use Playground\Web\View;
 use Psr\Container\ContainerInterface as Container;
 use Psr\Http\Message\{RequestFactoryInterface, RequestInterface, ResponseFactoryInterface, ResponseInterface, ServerRequestFactoryInterface, ServerRequestInterface, StreamFactoryInterface, StreamInterface, UploadedFileFactoryInterface, UploadedFileInterface, UriFactoryInterface, UriInterface};
@@ -39,6 +40,14 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
     JWT::class => create(JWT::class),
     JwtEncoder::class => factory(function (JWT $jwt) {
         return new JwtEncoder($jwt);
+    }),
+    Http\Dispatcher::class => factory(function (Container $c) {
+        return new Http\Dispatcher(
+            $c->get('is_production'),
+            $c->get(ResponseFactoryInterface::class),
+            $c->get(StreamFactoryInterface::class),
+            $c->get(View\HtmlFactory::class),
+        );
     }),
     Psr17Factory::class => create(Psr17Factory::class),
     RequestFactoryInterface::class => get(Psr17Factory::class),

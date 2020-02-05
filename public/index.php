@@ -32,6 +32,7 @@ $_404 = fn(ResponseFactory $factory, StreamFactory $stream, View\HtmlFactory $ht
 /** @var array<\Closure|MiddlewareInterface> */
 $queue = [];
 
+$queue[] = $container->get(Http\Dispatcher::class);
 $queue[] = fn (ServerRequest $request): HttpResponse
     => $container->call($router->getMatcher()->match($request)->handler ?? $_404);
 
