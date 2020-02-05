@@ -25,6 +25,7 @@
         "bag2/cookie": "^0.0.3",
         "cakephp/chronos": "^2.0",
         "filp/whoops": "^2.7",
+        "firebase/php-jwt": "^5.0",
         "kriswallsmith/buzz": "^1.0",
         "laminas/laminas-httphandlerrunner": "^1.1",
         "laminas/laminas-session": "^2.9",
@@ -35,6 +36,7 @@
         "psr/http-message": "^1.0",
         "psr/http-server-middleware": "^1.0",
         "psr/log": "^1.1",
+        "ramsey/uuid": "^3.9",
         "relay/relay": "~2.0",
         "symfony/security-csrf": "^5.0",
         "twig/twig": "^3.0"
