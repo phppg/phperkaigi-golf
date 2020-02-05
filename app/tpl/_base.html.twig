@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="UTF-8">
 		<title>{% block title %}⛳Golf{% endblock %}</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/marx-css@3.0.7/css/marx.min.css" integrity="sha256-hPp3aL54H6hqtJdIpwV2551XMfx3e5ZqZDzmTsX0ol0=" crossorigin="anonymous">
 	</head>
 	<body>
-		{% block content %}
-		{% endblock %}
-		<hr>
-		<footer>
-			&copy; 2020 pixiv
-		</footer>
+		<main>
+			{% block content %}
+			{% endblock %}
+			<hr style="border: 0">
+			<footer>
+				&copy; PHPerKaigi 2020 実行委員会
+			</footer>
+		</main>
 	</body>
 </html>
