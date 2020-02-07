@@ -5,9 +5,22 @@ declare(strict_types=1);
 namespace Playground\Web;
 
 use Aura\Router\RouterContainer;
+use Bag2\Cookie;
 use Cake\Chronos\Chronos;
 use DI;
-use Firebase\JWT\JWT;
+use Jose\Component\Checker;
+use Jose\Component\Checker\ClaimCheckerManager as JoseClaimCheckerManager;
+use Jose\Component\Checker\HeaderCheckerManager as JoseHeaderCheckerManager;
+use Jose\Component\Core\AlgorithmManager as JoseAlgorithmManager;
+use Jose\Component\Core\AlgorithmManagerFactory as JoseAlgorithmManagerFactory;
+use Jose\Component\Core\JWK;
+use Jose\Component\Signature\Algorithm\HS256;
+use Jose\Component\Signature\JWSBuilder;
+use Jose\Component\Signature\JWSLoader;
+use Jose\Component\Signature\JWSTokenSupport;
+use Jose\Component\Signature\JWSVerifier;
+use Jose\Component\Signature\Serializer\CompactSerializer as JoseSerializer;
+use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Nyholm\Psr7Server\ServerRequestCreator;
@@ -36,10 +49,50 @@ $builder = new DI\ContainerBuilder();
 // $builder->writeProxiesToFile(true, __DIR__ . '/../cache/proxies');
 $builder->addDefinitions((include __DIR__ . '/../config.php') + [
     Chronos::class => create(Chronos::class),
+    Cookie\Oven::class => factory(function () {
+        return new Cookie\Oven(['path' => '/', 'httponly' => true, 'samesite' => 'Strict']);
+    }),
     EmitterInterface::class => create(SapiEmitter::class),
-    JWT::class => create(JWT::class),
-    JwtEncoder::class => factory(function (JWT $jwt) {
-        return new JwtEncoder($jwt);
+    JoseAlgorithmManager::class => factory(function (JoseAlgorithmManagerFactory $factory) {
+        return $factory->create(['HS256']);
+    }),
+    JoseAlgorithmManagerFactory::class => factory(function (): JoseAlgorithmManagerFactory {
+        $factory = new JoseAlgorithmManagerFactory();
+        $factory->add('HS256', new HS256());
+
+        return $factory;
+    }),
+    JoseClaimCheckerManager::class => factory(function (Container $c): JoseClaimCheckerManager {
+        return new JoseClaimCheckerManager([
+            new Checker\IssuedAtChecker(),
+            new Checker\NotBeforeChecker(),
+            new Checker\ExpirationTimeChecker(),
+            new Checker\IssuerChecker($c->get('jose.issuers')),
+        ]);
+    }),
+    JoseHeaderCheckerManager::class => factory(function (Container $c): JoseHeaderCheckerManager {
+        return new JoseHeaderCheckerManager([
+            new Checker\IssuedAtChecker(),
+            new Checker\NotBeforeChecker(),
+            new Checker\ExpirationTimeChecker(),
+            new Checker\IssuerChecker($c->get('jose.issuers')),
+        ], [new JWSTokenSupport()]);
+    }),
+    JWSSerializerManager::class => factory(function (): JWSSerializerManager {
+        return new JWSSerializerManager([new JoseSerializer]);
+    }),
+    JWSBuilder::class => factory(function (JoseAlgorithmManager $algo): JWSBuilder {
+        return new JWSBuilder($algo);
+    }),
+    JWSLoader::class => factory(function (
+        JWSSerializerManager $serializer_manager,
+        JWSVerifier $verifier,
+        JoseHeaderCheckerManager $header_checker_manager
+    ): JWSLoader {
+        return new JWSLoader($serializer_manager, $verifier, $header_checker_manager);
+    }),
+    JWSVerifier::class => factory(function (JoseAlgorithmManager $algo): JWSVerifier {
+        return new JWSVerifier($algo);
     }),
     Http\Dispatcher::class => factory(function (Container $c) {
         return new Http\Dispatcher(
@@ -48,6 +101,17 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
             $c->get(StreamFactoryInterface::class),
             $c->get(View\HtmlFactory::class),
         );
+    }),
+    Http\SessionStorage::class => factory(function (Container $c): Http\SessionStorage {
+        $serializer = $c->get(JoseSerializer::class);
+        $jwk = $c->get(JWK::class);
+        $jws_builder = $c->get(JWSBuilder::class);
+        $jws_loader = $c->get(JWSLoader::class);
+        $jws_verifier = $c->get(JWSVerifier::class);
+        $oven = $c->get(Cookie\Oven::class);
+        $cookie_name = $c->get('cookie_name');
+
+        return new Http\CookieJwtSession($serializer, $jwk, $jws_builder, $jws_loader, $jws_verifier, $oven, $cookie_name);
     }),
     Psr17Factory::class => create(Psr17Factory::class),
     RequestFactoryInterface::class => get(Psr17Factory::class),
