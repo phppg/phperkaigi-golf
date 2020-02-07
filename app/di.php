@@ -48,7 +48,9 @@ $builder = new DI\ContainerBuilder();
 // $builder->enableCompilation(__DIR__ . '/../cache');
 // $builder->writeProxiesToFile(true, __DIR__ . '/../cache/proxies');
 $builder->addDefinitions((include __DIR__ . '/../config.php') + [
-    Chronos::class => create(Chronos::class),
+    Chronos::class => factory(function (): Chronos {
+        return Chronos::now();
+    }),
     Cookie\Oven::class => factory(function () {
         return new Cookie\Oven(['path' => '/', 'httponly' => true, 'samesite' => 'Strict']);
     }),
@@ -108,10 +110,11 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
         $jws_builder = $c->get(JWSBuilder::class);
         $jws_loader = $c->get(JWSLoader::class);
         $jws_verifier = $c->get(JWSVerifier::class);
+        $now = $c->get(Chronos::class);
         $oven = $c->get(Cookie\Oven::class);
         $cookie_name = $c->get('cookie_name');
 
-        return new Http\CookieJwtSession($serializer, $jwk, $jws_builder, $jws_loader, $jws_verifier, $oven, $cookie_name);
+        return new Http\CookieJwtSession($serializer, $jwk, $jws_builder, $jws_loader, $jws_verifier, $now, $oven, $cookie_name);
     }),
     Psr17Factory::class => create(Psr17Factory::class),
     RequestFactoryInterface::class => get(Psr17Factory::class),
