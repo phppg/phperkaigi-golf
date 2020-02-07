@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "99d9919397951069fa8f8b18280fe179",
+    "content-hash": "84ba2a7e24ac8652874505ea2caae035",
     "packages": [
         {
             "name": "atlas/pdo",
@@ -2947,6 +2947,90 @@
             "time": "2019-12-27T22:22:20+00:00"
         },
         {
+            "name": "web-token/jwt-key-mgmt",
+            "version": "v2.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/web-token/jwt-key-mgmt.git",
+                "reference": "27d5e3e2281ae1f9bbe1ab2e1664f871111fb3e2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/web-token/jwt-key-mgmt/zipball/27d5e3e2281ae1f9bbe1ab2e1664f871111fb3e2",
+                "reference": "27d5e3e2281ae1f9bbe1ab2e1664f871111fb3e2",
+                "shasum": ""
+            },
+            "require": {
+                "ext-openssl": "*",
+                "psr/http-client": "^1.0",
+                "psr/http-factory": "^1.0",
+                "web-token/jwt-core": "^2.0"
+            },
+            "require-dev": {
+                "php-http/httplug": "^1.1",
+                "php-http/message-factory": "^1.0",
+                "php-http/mock-client": "^1.0",
+                "phpunit/phpunit": "^8.0"
+            },
+            "suggest": {
+                "ext-sodium": "Sodium is required for OKP key creation, EdDSA signature algorithm and ECDH-ES key encryption with OKP keys",
+                "php-http/httplug": "To enable JKU/X5U support.",
+                "php-http/message-factory": "To enable JKU/X5U support.",
+                "web-token/jwt-util-ecc": "To use EC key analyzers."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "v1.0": "1.0.x-dev",
+                    "v1.1": "1.1.x-dev",
+                    "v1.2": "1.2.x-dev",
+                    "v1.3": "1.3.x-dev",
+                    "v2.0": "2.0.x-dev",
+                    "v2.1": "2.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Jose\\Component\\KeyManagement\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Florent Morselli",
+                    "homepage": "https://github.com/Spomky"
+                },
+                {
+                    "name": "All contributors",
+                    "homepage": "https://github.com/web-token/jwt-key-mgmt/contributors"
+                }
+            ],
+            "description": "Key Management component of the JWT Framework.",
+            "homepage": "https://github.com/web-token",
+            "keywords": [
+                "JOSE",
+                "JWE",
+                "JWK",
+                "JWKSet",
+                "JWS",
+                "Jot",
+                "RFC7515",
+                "RFC7516",
+                "RFC7517",
+                "RFC7518",
+                "RFC7519",
+                "RFC7520",
+                "bundle",
+                "jwa",
+                "jwt",
+                "symfony"
+            ],
+            "time": "2019-12-27T22:22:20+00:00"
+        },
+        {
             "name": "web-token/jwt-signature",
             "version": "v2.1.5",
             "source": {
@@ -3027,29 +3111,24 @@
             "time": "2020-01-23T20:44:53+00:00"
         },
         {
-            "name": "web-token/jwt-signature-algorithm-rsa",
+            "name": "web-token/jwt-signature-algorithm-hmac",
             "version": "v2.1.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/web-token/jwt-signature-algorithm-rsa.git",
-                "reference": "871f3cbcaa5cd8c7856cf1269056f6039586521f"
+                "url": "https://github.com/web-token/jwt-signature-algorithm-hmac.git",
+                "reference": "bcffed1172ecdc9b3b216a051d9ff1089ca45e0e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/web-token/jwt-signature-algorithm-rsa/zipball/871f3cbcaa5cd8c7856cf1269056f6039586521f",
-                "reference": "871f3cbcaa5cd8c7856cf1269056f6039586521f",
+                "url": "https://api.github.com/repos/web-token/jwt-signature-algorithm-hmac/zipball/bcffed1172ecdc9b3b216a051d9ff1089ca45e0e",
+                "reference": "bcffed1172ecdc9b3b216a051d9ff1089ca45e0e",
                 "shasum": ""
             },
             "require": {
-                "ext-gmp": "*",
-                "lib-openssl": "*",
                 "web-token/jwt-signature": "^2.1"
             },
             "require-dev": {
                 "phpunit/phpunit": "^8.0"
-            },
-            "suggest": {
-                "ext-gmp": "To use PSxxx algorihtms"
             },
             "type": "library",
             "extra": {
@@ -3081,7 +3160,7 @@
                     "homepage": "https://github.com/web-token/jwt-framework/contributors"
                 }
             ],
-            "description": "RSA Based Signature Algorithms the JWT Framework.",
+            "description": "HMAC Based Signature Algorithms the JWT Framework.",
             "homepage": "https://github.com/web-token",
             "keywords": [
                 "JOSE",
