@@ -6,6 +6,7 @@ namespace Playground\Web;
 
 use Aura\Router\RouterContainer;
 use Laminas\HttpHandlerRunner\Emitter\EmitterInterface as Emitter;
+use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ResponseFactoryInterface as ResponseFactory;
 use Psr\Http\Message\ResponseInterface as HttpResponse;
 use Psr\Http\Message\ServerRequestInterface as ServerRequest;
@@ -24,6 +25,12 @@ error_reporting(E_ALL);
 $container = (include __DIR__ . '/../app/di.php');
 $container->get(WhoopsInterface::class)->register();
 
+$server_request = $container->get(ServerRequest::class);
+if (PHP_SAPI === 'cli-server' && is_file(__DIR__ . $server_request->getUri()->getPath())) {
+    return false;
+}
+
+$http = $container->get(Psr17Factory::class);
 $router = $container->get(RouterContainer::class);
 
 $_404 = fn(ResponseFactory $factory, StreamFactory $stream, View\HtmlFactory $html): HttpResponse
@@ -33,10 +40,25 @@ $_404 = fn(ResponseFactory $factory, StreamFactory $stream, View\HtmlFactory $ht
 $queue = [];
 
 $queue[] = $container->get(Http\Dispatcher::class);
+$queue[] = $container->get(Http\SessionSetter::class);
+$queue[] = function (ServerRequest $request, RequestHandler $handler) use ($http, $router): HttpResponse {
+    $session = $request->getAttribute('session');
+
+    $uri = $request->getUri()->getPath();
+
+    if (!in_array($uri, ['/', '/terms'], true)) {
+        $gen = $router->getGenerator();
+
+        return $http->createResponse(302)->withHeader('Location', $gen->generate('terms'));
+    }
+
+    return $handler->handle($request);
+};
+
 $queue[] = fn (ServerRequest $request): HttpResponse
     => $container->call($router->getMatcher()->match($request)->handler ?? $_404);
 
 $relay = new Relay($queue);
-$response = $relay->handle($container->get(ServerRequest::class));
+$response = $relay->handle($server_request);
 
 $container->get(Emitter::class)->emit($response);

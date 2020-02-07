@@ -22,11 +22,22 @@ $map->get('index', '/', fn(
 ): HttpResponse => $factory->createResponse()->withBody($stream->createStream($html('index', [
 ]))));
 
+$map->get('terms', '/terms', fn(
+    ResponseFactory $factory,
+    StreamFactory $stream,
+    View\HtmlFactory $html
+): HttpResponse => $factory->createResponse()->withBody($stream->createStream($html('terms', [
+]))));
+
 $map->get('phpinfo', '/phpinfo.php', function (ResponseFactory $factory, StreamFactory $stream) {
     ob_start();
     phpinfo();
 
     return $factory->createResponse()->withBody($stream->createStream(ob_get_clean()));
+});
+
+$map->get('http.500', '/http/500', function () {
+    throw new \RuntimeException('Expected unexpected Error!');
 });
 
 return $router;

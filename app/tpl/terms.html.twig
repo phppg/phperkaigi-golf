@@ -1,0 +1,27 @@
+{% extends "_base.html.twig" %}
+{% block title %}terms - ⛳ PHPer Code Golf by pixiv{% endblock %}
+{% block content %}
+	<h1>⛳ PHPer Code Golf by pixiv</h1>
+	<h2 id="terms">利用規約</h2>
+	<p></p>
+	<h2 id="privacy_policy">プライバシーポリシー</h2>
+	<p></p>
+	<form method="post">
+		<fieldset>
+			<legend>規約に同意してプレー開始</legend>
+			<p>
+				<label>
+					<input type="checkbox" name="agree"> 利用規約とプライバシーポリシーに同意しました
+				</label>
+			</p>
+			<p>
+				<label>
+					PHPerKaigi 2020の会場名を<mark>カタカナ4文字</mark>で入力してください
+					<input type="text" name="place">
+				</label>
+			</p>
+
+			<button type="submit">同意してプレー開始する</button>
+		</fieldset>
+	</form>
+{% endblock %}
