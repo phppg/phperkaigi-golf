@@ -51,8 +51,13 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
     Chronos::class => factory(function (): Chronos {
         return Chronos::now();
     }),
-    Cookie\Oven::class => factory(function () {
-        return new Cookie\Oven(['path' => '/', 'httponly' => true, 'samesite' => 'Strict']);
+    Cookie\Oven::class => factory(function (Container $c) {
+        return new Cookie\Oven([
+            'path' => '/',
+            'httponly' => true,
+            'samesite' => 'Strict',
+            'secure' => $c->get('use_https'),
+        ]);
     }),
     EmitterInterface::class => create(SapiEmitter::class),
     JoseAlgorithmManager::class => factory(function (JoseAlgorithmManagerFactory $factory) {
@@ -113,8 +118,9 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
         $now = $c->get(Chronos::class);
         $oven = $c->get(Cookie\Oven::class);
         $cookie_name = $c->get('cookie_name');
+        $secure_only = $c->get('use_https');
 
-        return new Http\CookieJwtSession($serializer, $jwk, $jws_builder, $jws_loader, $jws_verifier, $now, $oven, $cookie_name);
+        return new Http\CookieJwtSession($serializer, $jwk, $jws_builder, $jws_loader, $jws_verifier, $now, $oven, $cookie_name, $secure_only);
     }),
     Psr17Factory::class => create(Psr17Factory::class),
     RequestFactoryInterface::class => get(Psr17Factory::class),
@@ -145,10 +151,6 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
                 return $gen->generate($name, $params) ?: '';
             }
         ));
-
-        if ($is_production) {
-            $twig->addExtension(new TwigOptimizer(OptimizerNodeVisitor::OPTIMIZE_ALL));
-        }
 
         return $twig;
     }),
