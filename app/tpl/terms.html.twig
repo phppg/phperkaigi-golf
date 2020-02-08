@@ -2,26 +2,58 @@
 {% block title %}terms - ⛳ PHPer Code Golf by pixiv{% endblock %}
 {% block content %}
 	<h1>⛳ PHPer Code Golf by pixiv</h1>
+	<h2 id="about"><a href="{{ route('index') }}">#ゴルフ場</a> について</h2>
+	<p>このサイトは<a href="https://phperkaigi.jp/2020/">PHPerKaigi 2020</a>開催期間中(<time datetime="2020-02-09T16:30:00+09:00">2020年2月9日</time>〜<time datetime="2020-02-11T23:59:00+09:00">2020年2月11日</time>)に参加者のチャレンジ企画として設置されたものです。開催終了日以降の稼動は保証しません。</p>
 	<h2 id="terms">利用規約</h2>
-	<p></p>
+	<ol>
+		<li>「PHPer Code Golf by pixiv」(以下「当サイト」といいます)はPHPerKaigi 2020 実行委員会(以下「運営者」といいます)が運営するWebサイトです。</li>
+		<li>当サイトの利用規約に同意したユーザー(以下「参加者」といいます)は当サイトを利用することができます。</li>
+		<li>当サイトに投稿されたソースコードの著作権は参加者自身に帰属します。</li>
+		<li>参加者は<a href="https://phperkaigi.jp/coc.html">PHPerKaigi 行動規範</a>に同意しなければなりません。</li>
+		<li>参加者は以下のコンテンツを投稿してはいけません。
+			<ul>
+				<li>明示的に他者が権利を持つ著作物</li>
+				<li>行動規範に反し、他者への経緯または礼儀を欠いた内容</li>
+				<li>他者のプライバシーを侵害する、またはその名誉もしくは信用を毀損する内容</li>
+				<li>当サイトまたは他の参加者のコンピュータに過剰な負荷を掛けることを目的とした内容</li>
+			</ul>
+		</li>
+		<li>運営者が</li>
+		<li>運営者はいつでも事前の予告なく当サイトのコンテンツの内容を変更し、当サイトの提供を停止・終了することができます。</li>
+		<li>運営者は当サイトに負荷を掛けると判断した参加者またはIPアドレスの単位でアクセスをブロックすることがあります。</li>
+		<li>運営者は当サイトに投稿したデータ・ソースコードの保全について一切保証しません。</li>
+	</ol>
 	<h2 id="privacy_policy">プライバシーポリシー</h2>
 	<p></p>
-	<form method="post">
-		<fieldset>
-			<legend>規約に同意してプレー開始</legend>
-			<p>
-				<label>
-					<input type="checkbox" name="agree"> 利用規約とプライバシーポリシーに同意しました
-				</label>
-			</p>
-			<p>
-				<label>
-					PHPerKaigi 2020の会場名を<mark>カタカナ4文字</mark>で入力してください
-					<input type="text" name="place">
-				</label>
-			</p>
+	{% if not session.isAcceptedTerms %}
+		<h2 id="agreement">規約に同意してプレー開始</h2>
+		<form method="post">
+			<fieldset>
+				<p>
+					<label>
+						<input type="checkbox" name="agree" value="yes" {% if input.agree %}checked{% endif %}>
+						利用規約とプライバシーポリシーに同意しました
+						{% if error.agree %}
+							<em class="input-error">同意する場合はチェックを入れてください</em>
+						{% endif %}
+					</label>
+				</p>
+				<p>
+					<label>
+						PHPerKaigi 2020の会場名を<mark>カタカナ4文字</mark>で入力してください
+						{% if error.place %}
+							<em class="input-error">会場の名前を正しく入力してください</em>
+						{% endif %}
+						<input type="text" name="place" value="{{input.place}}">
+					</label>
+				</p>
 
-			<button type="submit">同意してプレー開始する</button>
-		</fieldset>
-	</form>
+				<button type="submit">🏌同意してプレー開始する 🏌️‍♀️</button>
+			</fieldset>
+		</form>
+	{% else %}
+		<h2 id="agreement">同意状態</h2>
+		<p>あなたは既に #利用規約 と #プライバシーポリシー に同意しています。</p>
+		<a href="{{ route('index') }}"><button type="button">🏌️‍♀️PHPer Code Golfをプレーする🏌</button></a>
+	{% endif %}
 {% endblock %}

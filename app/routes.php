@@ -7,6 +7,7 @@ namespace Playground\Web;
 use Aura\Router\RouterContainer;
 use Psr\Http\Message\ResponseInterface as HttpResponse;
 use Psr\Http\Message\ResponseFactoryInterface as ResponseFactory;
+use Psr\Http\Message\ServerRequestInterface as ServerRequest;
 use Psr\Http\Message\StreamFactoryInterface as StreamFactory;
 use function ob_start;
 use function ob_get_clean;
@@ -27,7 +28,17 @@ $map->get('terms', '/terms', fn(
     StreamFactory $stream,
     View\HtmlFactory $html
 ): HttpResponse => $factory->createResponse()->withBody($stream->createStream($html('terms', [
+    'error' => [
+        'agree' => false,
+        'place' => false,
+    ],
+    'input' => [
+        'agree' => false,
+        'place' => '',
+    ],
 ]))));
+
+$map->post('post_terms', '/terms', fn(Http\TermsAgreementAction $action, ServerRequest $request): HttpResponse => $action($request));
 
 $map->get('phpinfo', '/phpinfo.php', function (ResponseFactory $factory, StreamFactory $stream) {
     ob_start();

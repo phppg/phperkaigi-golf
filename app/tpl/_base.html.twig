@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>{% block title %}⛳Golf{% endblock %}</title>
+		<meta name="robots" content="noindex">
 		<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
 		<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
 		<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
@@ -21,6 +22,14 @@
 		<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
 		<meta name="theme-color" content="#ffffff">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/marx-css@3.0.7/css/marx.min.css" integrity="sha256-hPp3aL54H6hqtJdIpwV2551XMfx3e5ZqZDzmTsX0ol0=" crossorigin="anonymous">
+		<style>
+			.input-error {
+				color: tomato;
+			}
+			.input-error::before {
+				content: "※"
+			}
+		</style>
 	</head>
 	<body>
 		<main>
@@ -28,7 +37,7 @@
 			{% endblock %}
 			<hr style="border: 0">
 			<footer>
-				&copy; PHPerKaigi 2020 実行委員会
+				&copy; <a href="https://phperkaigi.jp/2020/">PHPerKaigi 2020 実行委員会</a> | <a href="{{ route('terms') }}">利用規約</a>
 			</footer>
 		</main>
 	</body>
