@@ -26,6 +26,7 @@
         "bag2/cookie": "^0.0.3",
         "cakephp/chronos": "^2.0",
         "filp/whoops": "^2.7",
+        "ircmaxell/random-lib": "^1.2",
         "kriswallsmith/buzz": "^1.0",
         "laminas/laminas-httphandlerrunner": "^1.1",
         "nyholm/psr7": "^1.2",
