@@ -24,7 +24,7 @@ final class Session implements JsonSerializable
     }
 
     /**
-     * @param array{id?:int,name?:string}
+     * @param array{accepted_terms?:bool,id?:int,name?:string} $data
      */
     public static function fromArray(array $data): self
     {
@@ -53,6 +53,9 @@ final class Session implements JsonSerializable
         return isset($this->id);
     }
 
+    /**
+     * @return array{accepted_terms:bool,id?:int,name?:string}
+     */
     public function jsonSerialize(): array
     {
         $data = [

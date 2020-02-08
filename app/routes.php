@@ -33,7 +33,7 @@ $map->get('phpinfo', '/phpinfo.php', function (ResponseFactory $factory, StreamF
     ob_start();
     phpinfo();
 
-    return $factory->createResponse()->withBody($stream->createStream(ob_get_clean()));
+    return $factory->createResponse()->withBody($stream->createStream(ob_get_clean() ?: ''));
 });
 
 $map->get('http.500', '/http/500', function () {

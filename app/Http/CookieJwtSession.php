@@ -24,8 +24,6 @@ final class CookieJwtSession implements SessionStorage
 {
     private const COOKIE_LIFETIME_OFFSET = 60 * 60 * 24 * 30;
 
-    /** @var array<string,mixed> */
-    private array $data = [];
     private string $cookie_name;
     private JWK $jwk;
     private JWSBuilder $jws_builder;
@@ -56,6 +54,9 @@ final class CookieJwtSession implements SessionStorage
         $this->cookie_name = $cookie_name;
     }
 
+    /**
+     * @return array{accepted_terms?:bool,id?:int,name?:string}
+     */
     private function fetchJws(string $token): array
     {
         try {
@@ -68,7 +69,7 @@ final class CookieJwtSession implements SessionStorage
             return [];
         }
 
-        return json_decode($jws->getPayload(), true);
+        return json_decode($jws->getPayload() ?? '', true);
     }
 
     public function fromRequest(ServerRequest $request): self

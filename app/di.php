@@ -142,7 +142,7 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
         $twig->addFunction(new TwigFunction(
             'route',
             function (string $name, array $params = []) use ($gen): string {
-                return $gen->generate($name, $params);
+                return $gen->generate($name, $params) ?: '';
             }
         ));
 
