@@ -12,5 +12,6 @@ interface SessionStorage
 {
     public function fromRequest(ServerRequest $request): self;
     public function getSession(): Session;
+    public function initialized(): bool;
     public function writeTo(Response $response): Response;
 }

@@ -92,6 +92,11 @@ final class CookieJwtSession implements SessionStorage
         return $this->session;
     }
 
+    public function initialized(): bool
+    {
+        return isset($this->session);
+    }
+
     public function writeTo(Response $response): Response
     {
         $data = [

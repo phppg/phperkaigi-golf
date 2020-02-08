@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Playground\Web;
 
 use Aura\Router\RouterContainer;
+use Aura\Router\Generator as RouteGenerator;
 use Bag2\Cookie;
 use Cake\Chronos\Chronos;
 use DI;
@@ -60,6 +61,7 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
         ]);
     }),
     EmitterInterface::class => create(SapiEmitter::class),
+    Http\TermsAgreementAction::class => autowire(),
     JoseAlgorithmManager::class => factory(function (JoseAlgorithmManagerFactory $factory) {
         return $factory->create(['HS256']);
     }),
@@ -128,13 +130,19 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
     RouterContainer::class => factory(function () {
         return include __DIR__ . '/routes.php';
     }),
+    RouteGenerator::class => factory(function (RouterContainer $router): RouteGenerator {
+        return $router->getGenerator();
+    }),
     ServerRequestInterface::class => factory(function (Psr17Factory $http_factory) {
         return (new ServerRequestCreator(
             $http_factory, $http_factory, $http_factory, $http_factory
         ))->fromGlobals();
     }),
+    Session::class => factory(function (Http\SessionStorage $storage): Session {
+        return $storage->getSession();
+    }),
     StreamFactoryInterface::class => get(Psr17Factory::class),
-    Twig::class => factory(function (Container $c, RouterContainer $router) {
+    Twig::class => factory(function (Container $c, RouteGenerator $gen) {
         $is_production = $c->get('is_production');
 
         $twig = new Twig(new TwigFilesystemLoader([__DIR__ . '/tpl']), [
@@ -142,8 +150,6 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
             'debug' => !$is_production,
             'strict_variables' => true,
         ]);
-
-        $gen = $router->getGenerator();
 
         $twig->addFunction(new TwigFunction(
             'route',
@@ -163,8 +169,8 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
 
         return $whoops;
     }),
-    View\HtmlFactory::class => factory(function (Twig $twig) {
-        return new View\HtmlFactory($twig);
+    View\HtmlFactory::class => factory(function (Twig $twig, Http\SessionStorage $session_storage) {
+        return new View\HtmlFactory($twig, $session_storage);
     }),
 ]);
 
