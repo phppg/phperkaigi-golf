@@ -1,0 +1,21 @@
+CREATE TABLE `errors` (
+  `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  `time` TEXT NOT NULL,
+  `title` TEXT NOT NULL,
+  `trace` TEXT
+);
+
+CREATE TABLE `players` (
+  `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  `name` TEXT NOT NULL,
+  `email` TEXT NOT NULL,
+  `created_at` TEXT NOT NULL
+);
+
+CREATE TABLE `saved_codes` (
+  `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  `player_id` INTEGER NOT NULL,
+  `code` TEXT NOT NULL,
+  `hole` TEXT NOT NULL,
+  `hash` BLOB NOT NULL
+);
