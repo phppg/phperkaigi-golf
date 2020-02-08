@@ -120,9 +120,8 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
         $now = $c->get(Chronos::class);
         $oven = $c->get(Cookie\Oven::class);
         $cookie_name = $c->get('cookie_name');
-        $secure_only = $c->get('use_https');
 
-        return new Http\CookieJwtSession($serializer, $jwk, $jws_builder, $jws_loader, $jws_verifier, $now, $oven, $cookie_name, $secure_only);
+        return new Http\CookieJwtSession($serializer, $jwk, $jws_builder, $jws_loader, $jws_verifier, $now, $oven, $cookie_name);
     }),
     Psr17Factory::class => create(Psr17Factory::class),
     RequestFactoryInterface::class => get(Psr17Factory::class),
