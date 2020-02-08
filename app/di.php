@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Playground\Web;
 
+use Atlas\Orm\Atlas;
 use Aura\Router\RouterContainer;
 use Aura\Router\Generator as RouteGenerator;
 use Bag2\Cookie;
@@ -32,6 +33,9 @@ use Psr\Container\ContainerInterface as Container;
 use Psr\Http\Message\{RequestFactoryInterface, RequestInterface, ResponseFactoryInterface, ResponseInterface, ServerRequestFactoryInterface, ServerRequestInterface, StreamFactoryInterface, StreamInterface, UploadedFileFactoryInterface, UploadedFileInterface, UriFactoryInterface, UriInterface};
 use Ramsey\Uuid\UuidFactory;
 use Ramsey\Uuid\UuidFactoryInterface;
+use RandomLib\Factory as RandomFactory;
+use RandomLib\Generator as RandomGenerator;
+use SecurityLib;
 use Twig\Environment as Twig;
 use Twig\Extension\OptimizerExtension as TwigOptimizer;
 use Twig\Loader\FilesystemLoader as TwigFilesystemLoader;
@@ -49,6 +53,11 @@ $builder = new DI\ContainerBuilder();
 // $builder->enableCompilation(__DIR__ . '/../cache');
 // $builder->writeProxiesToFile(true, __DIR__ . '/../cache/proxies');
 $builder->addDefinitions((include __DIR__ . '/../config.php') + [
+    Atlas::class => factory(function (Container $c) {
+        $config = $c->get('atlas');
+
+        return Atlas::new(...$config['pdo']);
+    }),
     Chronos::class => factory(function (): Chronos {
         return Chronos::now();
     }),
@@ -124,6 +133,9 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
         return new Http\CookieJwtSession($serializer, $jwk, $jws_builder, $jws_loader, $jws_verifier, $now, $oven, $cookie_name);
     }),
     Psr17Factory::class => create(Psr17Factory::class),
+    RandomGenerator::class => factory(function (RandomFactory $factory): RandomGenerator {
+        return $factory->getGenerator(new SecurityLib\Strength(SecurityLib\Strength::MEDIUM));
+    }),
     RequestFactoryInterface::class => get(Psr17Factory::class),
     ResponseFactoryInterface::class => get(Psr17Factory::class),
     RouterContainer::class => factory(function () {
