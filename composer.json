@@ -27,7 +27,6 @@
         "filp/whoops": "^2.7",
         "kriswallsmith/buzz": "^1.0",
         "laminas/laminas-httphandlerrunner": "^1.1",
-        "laminas/laminas-session": "^2.9",
         "nyholm/psr7": "^1.2",
         "nyholm/psr7-server": "^0.4.1",
         "php-di/php-di": "^6.0",
