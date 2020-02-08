@@ -33,10 +33,10 @@ class PlayerTable extends Table
             'primary' => true,
             'options' => null,
         ],
-        'name' => [
-            'name' => 'name',
+        'fortee_name' => [
+            'name' => 'fortee_name',
             'type' => 'varchar',
-            'size' => 191,
+            'size' => 255,
             'scale' => null,
             'notnull' => true,
             'default' => null,
@@ -44,10 +44,10 @@ class PlayerTable extends Table
             'primary' => false,
             'options' => null,
         ],
-        'email' => [
-            'name' => 'email',
+        'display_name' => [
+            'name' => 'display_name',
             'type' => 'varchar',
-            'size' => 255,
+            'size' => 191,
             'scale' => null,
             'notnull' => true,
             'default' => null,
@@ -70,15 +70,15 @@ class PlayerTable extends Table
 
     const COLUMN_NAMES = [
         'id',
-        'name',
-        'email',
+        'fortee_name',
+        'display_name',
         'created_at',
     ];
 
     const COLUMN_DEFAULTS = [
         'id' => null,
-        'name' => null,
-        'email' => null,
+        'fortee_name' => null,
+        'display_name' => null,
         'created_at' => null,
     ];
 

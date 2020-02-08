@@ -10,16 +10,16 @@ use Atlas\Table\Row;
 
 /**
  * @property mixed $id mediumint(7,0) unsigned NOT NULL
- * @property mixed $name varchar(191) NOT NULL
- * @property mixed $email varchar(255) NOT NULL
+ * @property mixed $fortee_name varchar(255) NOT NULL
+ * @property mixed $display_name varchar(191) NOT NULL
  * @property mixed $created_at datetime NOT NULL
  */
 class PlayerRow extends Row
 {
     protected $cols = [
         'id' => null,
-        'name' => null,
-        'email' => null,
+        'fortee_name' => null,
+        'display_name' => null,
         'created_at' => null,
     ];
 }

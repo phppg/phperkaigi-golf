@@ -8,8 +8,8 @@ namespace Playground\Web\DataSource\MySQL\Player;
 
 /**
  * @property mixed $id mediumint(7,0) unsigned NOT NULL
- * @property mixed $name varchar(191) NOT NULL
- * @property mixed $email varchar(255) NOT NULL
+ * @property mixed $fortee_name varchar(255) NOT NULL
+ * @property mixed $display_name varchar(191) NOT NULL
  * @property mixed $created_at datetime NOT NULL
  */
 trait PlayerFields

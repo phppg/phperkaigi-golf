@@ -9,11 +9,11 @@ CREATE TABLE `errors` (
 
 CREATE TABLE `players` (
   `id` MEDIUMINT unsigned NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(191) NOT NULL,
-  `email` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `fortee_name` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `display_name` VARCHAR(191) NOT NULL,
   `created_at` DATETIME NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`)
+  UNIQUE KEY `foree_name` (`fortee_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT="PHP Golf players";
 
 CREATE TABLE `passwords` (
