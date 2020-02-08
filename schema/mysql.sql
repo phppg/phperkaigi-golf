@@ -16,6 +16,14 @@ CREATE TABLE `players` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT="PHP Golf players";
 
+CREATE TABLE `passwords` (
+  `id` MEDIUMINT unsigned NOT NULL AUTO_INCREMENT,
+  `player_id` MEDIUMINT unsigned NOT NULL,
+  `hash` VARCHAR(255) CHARACTER SET utf8,
+  PRIMARY KEY (`id`),
+  KEY `player_id` (`player_id`)
+) ENGINE=InnoDB COMMENT="PHP Golf player password hashes";
+
 CREATE TABLE `saved_codes` (
   `id` MEDIUMINT unsigned NOT NULL AUTO_INCREMENT,
   `player_id` MEDIUMINT unsigned,
