@@ -8,7 +8,14 @@ CREATE TABLE `errors` (
 CREATE TABLE `players` (
   `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
   `name` TEXT NOT NULL,
-  `email` TEXT NOT NULL,
+  `email` TEXT NOT NULL UNIQUE,
+  `created_at` TEXT NOT NULL
+);
+
+CREATE TABLE `passwords` (
+  `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  `player_id` INTEGER NOT NULL,
+  `hash` TEXT NOT NULL,
   `created_at` TEXT NOT NULL
 );
 
