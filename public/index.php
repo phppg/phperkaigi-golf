@@ -16,6 +16,7 @@ use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Relay\Relay;
 use Throwable;
 use Whoops\RunInterface as WhoopsInterface;
+use const PHP_VERSION;
 use function error_reporting;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -39,6 +40,8 @@ $_404 = fn(ResponseFactory $factory, StreamFactory $stream, View\HtmlFactory $ht
 /** @var array<\Closure|MiddlewareInterface> */
 $queue = [];
 
+$queue[] = fn(ServerRequest $request, RequestHandler $handler): HttpResponse
+    => $handler->handle($request)->withHeader('X-Powered-By', 'PHP/' . PHP_VERSION)->withHeader('X-Robots-Tag', 'noindex');
 $queue[] = $container->get(Http\Dispatcher::class);
 $queue[] = $container->get(Http\SessionSetter::class);
 $queue[] = function (ServerRequest $request, RequestHandler $handler) use ($http, $router): HttpResponse {
