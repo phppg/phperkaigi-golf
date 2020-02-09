@@ -61,7 +61,9 @@ $queue[] = function (ServerRequest $request, RequestHandler $handler) use ($http
 };
 
 $queue[] = fn (ServerRequest $request): HttpResponse
-    => $container->call($router->getMatcher()->match($request)->handler ?? $_404);
+    => $container->call($router->getMatcher()->match($request)->handler ?? $_404, [
+        'request' => $request,
+    ]);
 
 $relay = new Relay($queue);
 $response = $relay->handle($server_request);
