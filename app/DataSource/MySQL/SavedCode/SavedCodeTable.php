@@ -77,6 +77,28 @@ class SavedCodeTable extends Table
             'primary' => false,
             'options' => null,
         ],
+        'published' => [
+            'name' => 'published',
+            'type' => 'tinyint',
+            'size' => 3,
+            'scale' => 0,
+            'notnull' => false,
+            'default' => null,
+            'autoinc' => false,
+            'primary' => false,
+            'options' => null,
+        ],
+        'ipaddr' => [
+            'name' => 'ipaddr',
+            'type' => 'varbinary',
+            'size' => 16,
+            'scale' => null,
+            'notnull' => false,
+            'default' => null,
+            'autoinc' => false,
+            'primary' => false,
+            'options' => null,
+        ],
     ];
 
     const COLUMN_NAMES = [
@@ -85,6 +107,8 @@ class SavedCodeTable extends Table
         'code',
         'hole',
         'hash',
+        'published',
+        'ipaddr',
     ];
 
     const COLUMN_DEFAULTS = [
@@ -93,6 +117,8 @@ class SavedCodeTable extends Table
         'code' => null,
         'hole' => null,
         'hash' => null,
+        'published' => null,
+        'ipaddr' => null,
     ];
 
     const PRIMARY_KEY = [
