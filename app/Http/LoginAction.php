@@ -57,6 +57,7 @@ final class LoginAction
 
     public function __invoke(ServerRequest $request): HttpResponse
     {
+        /** @var array{fortee_name?:string,login_code?:string} */
         $params = $request->getParsedBody();
 
         $fortee_name = $params['fortee_name'] ?? '';

@@ -57,6 +57,7 @@ final class TermsAgreementAction
 
     public function __invoke(ServerRequest $request): HttpResponse
     {
+        /** @var array{fortee_name?:string,display_name?:string,email_addr?:string,agree?:string,place?:string} */
         $params = $request->getParsedBody();
 
         $fortee_name = $params['fortee_name'] ?? '';
