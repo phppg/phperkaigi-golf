@@ -23,7 +23,7 @@
 		<meta name="theme-color" content="#ffffff">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/marx-css@3.0.7/css/marx.min.css" integrity="sha256-hPp3aL54H6hqtJdIpwV2551XMfx3e5ZqZDzmTsX0ol0=" crossorigin="anonymous">
 		<style>
-			.input-error {
+			.input-error, .code-error {
 				color: tomato;
 			}
 			.input-error::before {
@@ -48,6 +48,11 @@
 			}
 			blockquote > cite::before {
 				content: "─"
+			}
+			textarea.code {
+				margin-bottom: 20px;
+				min-height: 10em;
+				font-family: Menlo,Monaco,Consolas,Courier New,monospace;
 			}
 			li {
 				margin-bottom: 14px;
