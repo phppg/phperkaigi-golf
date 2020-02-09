@@ -1,0 +1,45 @@
+{% extends "_base.html.twig" %}
+{% block title %}login - ⛳ PHPer Code Golf by pixiv{% endblock %}
+{% block content %}
+	<h1><a href="{{route('index')}}">⛳</a> PHPer Code Golf by pixiv</h1>
+	<h2>砂場遊び</h2>
+	<p>このページではPHPコードをブラウザ上で実行できます。</p>
+	<form method="post" action="{{route('post_sandbox')}}">
+		<textarea name="code" class="code" required>{{ code }}</textarea>
+		<div style="text-align: center;">
+			<button type="submit">⛳ 実行</button>
+		</div>
+	</form>
+
+	{% if errors != null %}
+		<h3>Error</h3>
+		<ul>
+			{% if errors.syntax_error %}
+				<li class="code-error">Syntax error</li>
+			{% endif %}
+			{% if errors.timeout %}
+				<li class="code-error">実行時間がタイムアウトになりました</li>
+			{% endif %}
+		</ul>
+	{% endif %}
+
+	<h3>標準出力 (STDOUT)</h3>
+	{% if output != null %}
+		<pre><code>{{ output }}</code></pre>
+	{% else %}
+		<ul>
+			<li class="code-error">出力はありませんでした</li>
+		</ul>
+	{% endif %}
+
+	{% if error_output != null and error_output != '' %}
+		<h3>標準エラー出力 (STDERR)</h3>
+		<pre><code>{{ error_output }}</code></pre>
+	{% endif %}
+
+	{% if pretty_print != null %}
+		<h3>整形済みコード</h3>
+		<pre><code>{{ pretty_print }}</code></pre>
+	{% endif %}
+
+{% endblock %}
