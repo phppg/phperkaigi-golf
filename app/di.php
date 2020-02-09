@@ -73,6 +73,7 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
             'name' => 'php',
             'ini' => $c->get('sandbox_ini'),
             'noconf' => true,
+            'defines' => $c->get('sandbox_php_defines'),
         ]);
     }),
     Cookie\Oven::class => factory(function (Container $c) {
