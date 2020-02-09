@@ -1399,16 +1399,16 @@
         },
         {
             "name": "php-playgrround/playground",
-            "version": "v0.2.0",
+            "version": "v0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phppg/playground.git",
-                "reference": "4150c91ccc4ac8e6aaba2a241e1689856f46f425"
+                "reference": "7b55442e8c5dc9859ba97911384e5b4b93c35a1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phppg/playground/zipball/4150c91ccc4ac8e6aaba2a241e1689856f46f425",
-                "reference": "4150c91ccc4ac8e6aaba2a241e1689856f46f425",
+                "url": "https://api.github.com/repos/phppg/playground/zipball/7b55442e8c5dc9859ba97911384e5b4b93c35a1c",
+                "reference": "7b55442e8c5dc9859ba97911384e5b4b93c35a1c",
                 "shasum": ""
             },
             "require": {
@@ -1439,7 +1439,7 @@
                     "role": "Developer"
                 }
             ],
-            "time": "2020-02-09T20:01:29+00:00"
+            "time": "2020-02-09T22:24:20+00:00"
         },
         {
             "name": "psr/container",
