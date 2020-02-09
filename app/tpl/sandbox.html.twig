@@ -3,7 +3,7 @@
 {% block content %}
 	<h1><a href="{{route('index')}}">⛳</a> PHPer Code Golf by pixiv</h1>
 	<h2>砂場遊び</h2>
-	<p>このページではPHPコードをブラウザ上で実行できます。</p>
+	<p>このページではPHPコードをブラウザ上で実行できます。 (<em class="input-error">砂場に書いたコードは記録されません</em>)</p>
 	<form method="post" action="{{route('post_sandbox')}}">
 		<textarea name="code" class="code" required>{{ code }}</textarea>
 		<div style="text-align: center;">

@@ -22,11 +22,10 @@
 			<pre><code>{{ session.login_code }}</code></pre>
 			<p>このログインコードはサーバー側には保持していないので、紛失した場合は個別に再発行いたします。</p>
 		</details>
-	{% endif %}
 
-	<p class="important">
 		<ul>
+			<li><a href="{{route('sandbox')}}">砂場遊び</a></li>
 			<li><a href="{{route('phpinfo')}}"><code>phpinfo.php</code></a></li>
 		</ul>
-	</p>
+	{% endif %}
 {% endblock %}
