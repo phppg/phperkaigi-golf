@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace Playground\Web;
 
 use Atlas\Orm\Atlas;
-use Aura\Router\RouterContainer;
 use Aura\Router\Generator as RouteGenerator;
+use Aura\Router\RouterContainer;
 use Bag2\Cookie;
 use Cake\Chronos\Chronos;
 use DI;
+use function DI\autowire;
+use function DI\create;
+use function DI\factory;
+use function DI\get;
 use Jose\Component\Checker;
 use Jose\Component\Checker\ClaimCheckerManager as JoseClaimCheckerManager;
 use Jose\Component\Checker\HeaderCheckerManager as JoseHeaderCheckerManager;
@@ -25,8 +29,8 @@ use Jose\Component\Signature\Serializer\CompactSerializer as JoseSerializer;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
-use Nyholm\Psr7Server\ServerRequestCreator;
 use Nyholm\Psr7\Factory\Psr17Factory;
+use Nyholm\Psr7Server\ServerRequestCreator;
 use PhpParser\PrettyPrinter;
 use PhpParser\PrettyPrinterAbstract;
 use Playground\CommandBuilder;
@@ -51,10 +55,6 @@ use Twig\TwigFunction;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run as Whoops;
 use Whoops\RunInterface as WhoopsInterface;
-use function DI\autowire;
-use function DI\create;
-use function DI\factory;
-use function DI\get;
 
 $builder = new DI\ContainerBuilder();
 // $builder->enableCompilation(__DIR__ . '/../cache');
@@ -175,7 +175,10 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
     }),
     ServerRequestInterface::class => factory(function (Psr17Factory $http_factory) {
         return (new ServerRequestCreator(
-            $http_factory, $http_factory, $http_factory, $http_factory
+            $http_factory,
+            $http_factory,
+            $http_factory,
+            $http_factory
         ))->fromGlobals();
     }),
     Session::class => factory(function (Http\SessionStorage $storage): Session {

@@ -49,4 +49,4 @@ final class Dispatcher implements MiddlewareInterface
                 ($this->html_factory)('500', [])
             ));
     }
-};
+}

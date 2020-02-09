@@ -27,4 +27,4 @@ final class SessionSetter implements MiddlewareInterface
 
         return $this->session_storage->writeTo($handler->handle($request));
     }
-};
+}

@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace Playground\Web;
 
 use Aura\Router\RouterContainer;
+use function date_default_timezone_set;
+use function error_reporting;
 use Laminas\HttpHandlerRunner\Emitter\EmitterInterface as Emitter;
 use Nyholm\Psr7\Factory\Psr17Factory;
+use const PHP_VERSION;
 use Psr\Http\Message\ResponseFactoryInterface as ResponseFactory;
 use Psr\Http\Message\ResponseInterface as HttpResponse;
 use Psr\Http\Message\ServerRequestInterface as ServerRequest;
@@ -16,9 +19,6 @@ use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Relay\Relay;
 use Throwable;
 use Whoops\RunInterface as WhoopsInterface;
-use const PHP_VERSION;
-use function date_default_timezone_set;
-use function error_reporting;
 
 require __DIR__ . '/../vendor/autoload.php';
 

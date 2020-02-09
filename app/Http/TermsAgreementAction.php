@@ -7,17 +7,17 @@ namespace Playground\Web\Http;
 use Atlas\Orm\Atlas;
 use Aura\Router\Generator as RouteGenerator;
 use Cake\Chronos\Chronos;
-use Playground\Web\DataSource\MySQL\Player\Player;
+use const PASSWORD_DEFAULT;
+use function password_hash;
 use Playground\Web\DataSource\MySQL\Password\Password;
+use Playground\Web\DataSource\MySQL\Player\Player;
 use Playground\Web\Session;
 use Playground\Web\View;
-use Psr\Http\Message\ResponseInterface as HttpResponse;
 use Psr\Http\Message\ResponseFactoryInterface as ResponseFactory;
+use Psr\Http\Message\ResponseInterface as HttpResponse;
 use Psr\Http\Message\ServerRequestInterface as ServerRequest;
 use Psr\Http\Message\StreamFactoryInterface as StreamFactory;
 use RandomLib\Generator as RandomGenerator;
-use const PASSWORD_DEFAULT;
-use function password_hash;
 
 final class TermsAgreementAction
 {
