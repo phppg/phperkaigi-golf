@@ -84,9 +84,10 @@ $map->get('sandbox', '/sandbox', function (ResponseFactory $factory, StreamFacto
 
          if (true) if (true) echo 'Hello, world!';
          PHP,
+        'accepted' => null,
         'errors' => null,
         'error_output' => null,
-        'output' => null,
+        'output' => '',
         'pretty_print' => null,
         'stats' => null,
     ])));

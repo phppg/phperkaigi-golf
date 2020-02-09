@@ -1,0 +1,18 @@
+<h3>標準出力 (STDOUT)</h3>
+{% if output != null %}
+	<pre><code>{{ output }}</code></pre>
+{% else %}
+	<ul>
+		<li class="code-error">出力はありませんでした</li>
+	</ul>
+{% endif %}
+
+{% if error_output != null and error_output != '' %}
+	<h3>標準エラー出力 (STDERR)</h3>
+	<pre><code>{{ error_output }}</code></pre>
+{% endif %}
+
+{% if pretty_print != null %}
+	<h3>整形済みコード</h3>
+	<pre><code>{{ pretty_print }}</code></pre>
+{% endif %}

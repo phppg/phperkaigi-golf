@@ -84,6 +84,7 @@ final class SandboxAction
         return $this->factory->createResponse(200)
             ->withBody($this->stream->createStream(($this->html)('sandbox', [
                 'code' => $original,
+                'accepted' => null,
                 'errors' => $no_error ? null : $errors,
                 'error_output' => $error_output,
                 'output' => $output,
