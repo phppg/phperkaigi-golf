@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Playground\Web;
 
 use Aura\Router\RouterContainer;
+use Psr\Container\ContainerInterface as Container;
 use Psr\Http\Message\ResponseInterface as HttpResponse;
 use Psr\Http\Message\ResponseFactoryInterface as ResponseFactory;
 use Psr\Http\Message\ServerRequestInterface as ServerRequest;
@@ -68,6 +69,12 @@ $map->get('phpinfo', '/phpinfo.php', function (ResponseFactory $factory, StreamF
     phpinfo();
 
     return $factory->createResponse()->withBody($stream->createStream(ob_get_clean() ?: ''));
+});
+
+$map->get('phpini', '/php.ini', function (ResponseFactory $factory, StreamFactory $stream, Container $c) {
+    return $factory->createResponse()
+        ->withHeader('Content-Type', 'text/plain')
+        ->withBody($stream->createStream(file_get_contents($c->get('sandbox_ini'))));
 });
 
 $map->get('sandbox', '/sandbox', function (ResponseFactory $factory, StreamFactory $stream, View\HtmlFactory $html): HttpResponse {
