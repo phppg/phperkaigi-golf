@@ -27,6 +27,12 @@ use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Nyholm\Psr7Server\ServerRequestCreator;
 use Nyholm\Psr7\Factory\Psr17Factory;
+use PhpParser\PrettyPrinter;
+use PhpParser\PrettyPrinterAbstract;
+use Playground\CommandBuilder;
+use Playground\File;
+use Playground\Invoker;
+use Playground\Process\SymfonyProcessFactory as ProcessFactory;
 use Playground\Web\Http;
 use Playground\Web\View;
 use Psr\Container\ContainerInterface as Container;
@@ -36,6 +42,7 @@ use Ramsey\Uuid\UuidFactoryInterface;
 use RandomLib\Factory as RandomFactory;
 use RandomLib\Generator as RandomGenerator;
 use SecurityLib;
+use Symfony\Component\Console\Input\Input;
 use Twig\Environment as Twig;
 use Twig\Extension\OptimizerExtension as TwigOptimizer;
 use Twig\Loader\FilesystemLoader as TwigFilesystemLoader;
@@ -61,6 +68,13 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
     Chronos::class => factory(function (): Chronos {
         return Chronos::now();
     }),
+    CommandBuilder::class => factory(function (Container $c): CommandBuilder\DefaultCommand {
+        return new CommandBuilder\DefaultCommand([
+            'name' => 'php',
+            'ini' => $c->get('sandbox_ini'),
+            'noconf' => true,
+        ]);
+    }),
     Cookie\Oven::class => factory(function (Container $c) {
         return new Cookie\Oven([
             'path' => '/',
@@ -70,7 +84,20 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
         ]);
     }),
     EmitterInterface::class => create(SapiEmitter::class),
+    File::class => factory(function (FileFactory $factory): File {
+        return $factory->create('');
+    }),
     Http\TermsAgreementAction::class => autowire(),
+    Invoker::class => factory(function (Container $c): Invoker\ProcessInvoker {
+        return new Invoker\ProcessInvoker(
+            $c->get(CommandBuilder::class),
+            $c->get('sandbox_dir'),
+            [],
+            $c->get(File::class),
+            $c->get('sandbox_timeout'),
+            $c->get(ProcessFactory::class)
+        );
+    }),
     JoseAlgorithmManager::class => factory(function (JoseAlgorithmManagerFactory $factory) {
         return $factory->create(['HS256']);
     }),
@@ -132,6 +159,8 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
 
         return new Http\CookieJwtSession($serializer, $jwk, $jws_builder, $jws_loader, $jws_verifier, $now, $oven, $cookie_name);
     }),
+    ParsedCodeFactory::class => autowire(),
+    PrettyPrinterAbstract::class => create(PrettyPrinter\Standard::class),
     Psr17Factory::class => create(Psr17Factory::class),
     RandomGenerator::class => factory(function (RandomFactory $factory): RandomGenerator {
         return $factory->getGenerator(new SecurityLib\Strength(SecurityLib\Strength::MEDIUM));
