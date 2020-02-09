@@ -1,3 +1,4 @@
+/.php_cs.cache
 /cache/
 /config-*.php
 /config.php
