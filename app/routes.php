@@ -29,16 +29,39 @@ $map->get('terms', '/terms', fn(
     View\HtmlFactory $html
 ): HttpResponse => $factory->createResponse()->withBody($stream->createStream($html('terms', [
     'error' => [
+        'fortee_name_duplicate' => false,
         'agree' => false,
         'place' => false,
     ],
     'input' => [
+        'fortee_name' => '',
+        'display_name' => '',
+        'agree' => false,
+        'place' => '',
+    ],
+]))));
+
+$map->get('login', '/login', fn(
+    ResponseFactory $factory,
+    StreamFactory $stream,
+    View\HtmlFactory $html
+): HttpResponse => $factory->createResponse()->withBody($stream->createStream($html('login', [
+    'error' => [
+        'fortee_name_duplicate' => false,
+        'agree' => false,
+        'place' => false,
+    ],
+    'input' => [
+        'fortee_name' => '',
+        'display_name' => '',
         'agree' => false,
         'place' => '',
     ],
 ]))));
 
 $map->post('post_terms', '/terms', fn(Http\TermsAgreementAction $action, ServerRequest $request): HttpResponse => $action($request));
+
+$map->post('post_login', '/login', fn(Http\LoginAction $action, ServerRequest $request): HttpResponse => $action($request));
 
 $map->get('phpinfo', '/phpinfo.php', function (ResponseFactory $factory, StreamFactory $stream) {
     ob_start();

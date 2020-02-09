@@ -1,13 +1,28 @@
 {% extends "_base.html.twig" %}
 {% block title %}⛳ PHPer Code Golf by pixiv{% endblock %}
 {% block content %}
-	<h1>⛳ PHPer Code Golf by pixiv</h1>
+	<h1><a href="{{route('index')}}">⛳</a> PHPer Code Golf by pixiv</h1>
 	<p>お題に沿ったプログラムをいかに短く書くかを競う<dfn>コードゴルフ</dfn>という競技があります。</p>
 	<blockquote cite="https://ja.wikipedia.org/w/index.php?title=%E3%82%B3%E3%83%BC%E3%83%89%E3%82%B4%E3%83%AB%E3%83%95&oldid=65931111" title="出典: フリー百科事典『ウィキペディア（Wikipedia）』 コードゴルフ 2017-10-14 21:52:35版">
 		<p><dfn>コードゴルフ</dfn>はコンピュータプログラミング・コンテストの一種。 参加者は与えられたアルゴリズムを、可能な限りもっとも短いソースコードで記述することを競う。バイナリサイズではなく、ソースコードの文字数がスコアとなる。「Perl golf」など、トーナメントで使用されるプログラミング言語の名前がつけられることもある。ショートコーディング、コードパズル等とも呼ばれる。</p>
 		<cite><a href="https://ja.wikipedia.org/wiki/%E3%82%B3%E3%83%BC%E3%83%89%E3%82%B4%E3%83%AB%E3%83%95">コードゴルフ - Wikipedia</a></cite>
 	</blockquote>
 	<p><dfn>PHPer Code Golf</dfn>はPHPに特化したコードゴルフ場です。一般的なコードゴルフでは「ソースコードの短かさ」によって競われますが、PHPer Code Golf by pixivでは「トークン数」「文の数」といった観点からソースコードをスコアリングします。</p>
+
+
+	{% if not session.isAcceptedTerms %}
+		<div style="text-align: center;">
+			<a href="{{route('terms')}}"><button type="button">🏌 利用規約の確認と参加登録に進む 🏌️‍♀️</button></a>
+		</div>
+		{% include "_login_form.html.twig" %}
+	{% else %}
+		<details>
+			<summary><mark>ログインコードを控えておいてください</mark></summary>
+			<p>ほかの端末・ブラウザからログインするときや、セッションが切れてしまったときのためにログインコードを必ずバックアップしておいてください。</p>
+			<pre><code>{{ session.login_code }}</code></pre>
+			<p>このログインコードはサーバー側には保持していないので、紛失した場合は個別に再発行いたします。</p>
+		</details>
+	{% endif %}
 
 	<p class="important">
 		<ul>

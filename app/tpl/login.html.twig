@@ -1,0 +1,16 @@
+{% extends "_base.html.twig" %}
+{% block title %}login - ⛳ PHPer Code Golf by pixiv{% endblock %}
+{% block content %}
+	<h1><a href="{{route('index')}}">⛳</a> PHPer Code Golf by pixiv</h1>
+	<h2>ログイン</h2>
+	{% if not session.isLoggedIn %}
+		{% include "_login_form.html.twig" %}
+		<h2>参加登録</h2>
+		<p>まだ規約の同意が済んでいなければ参加登録を先に行ってください</p>
+		<div style="text-align: center;">
+			<a href="{{route('terms')}}"><button type="button">🏌 利用規約の確認と参加登録に進む 🏌️‍♀️</button></a>
+		</div>
+	{% else %}
+		<p>既にログイン済みです。<a href="{{route('index')}}">#ゴルフ場</a>からコードゴルフをお楽しみください。</p>
+	{% endif %}
+{% endblock %}

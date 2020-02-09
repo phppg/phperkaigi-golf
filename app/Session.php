@@ -12,6 +12,7 @@ final class Session implements JsonSerializable
     public bool $accepted_terms;
     public int $id;
     public string $name;
+    public string $login_code;
     public string $place;
 
     private function __construct()
@@ -39,6 +40,10 @@ final class Session implements JsonSerializable
 
         if (isset($data['name'])) {
             $session->name = $data['name'];
+        }
+
+        if (isset($data['login_code'])) {
+            $session->login_code = $data['login_code'];
         }
 
         if (isset($data['place'])) {
@@ -69,6 +74,10 @@ final class Session implements JsonSerializable
 
         if (isset($this->id)) {
             $data['id'] = $this->id;
+        }
+
+        if (isset($this->login_code)) {
+            $data['login_code'] = $this->login_code;
         }
 
         if (isset($this->name)) {

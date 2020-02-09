@@ -19,7 +19,7 @@ use RandomLib\Generator as RandomGenerator;
 use const PASSWORD_DEFAULT;
 use function password_hash;
 
-final class TermsAgreementAction
+final class LoginAction
 {
     private const PASSWORD_CHARS =
         'abcdefghijklmnopqrstuvwxyz' .
@@ -60,53 +60,37 @@ final class TermsAgreementAction
         $params = $request->getParsedBody();
 
         $fortee_name = $params['fortee_name'] ?? '';
-        $display_name = $params['display_name'] ?? '';
-        $email_addr = $params['email_addr'] ?? '';
-        $accepted_terms = ($params['agree'] ?? '') === 'yes';
-        $matched_place = ($params['place'] ?? '') === 'ココネリ';
+        $login_code = $params['login_code'] ?? '';
 
-        $player_record = $this->atlas->select(Player::class)
+        $player = $this->atlas->select(Player::class)
             ->where('fortee_name =', $fortee_name)
             ->fetchRecord();
-        $no_record = $player_record === null;
 
-        if (!($accepted_terms && $matched_place && $no_record)) {
+        $password = null;
+        if ($player !== null) {
+            $password = $this->atlas->select(Password::class)
+                ->where('player_id =', $player->id)
+                ->fetchRecord();
+        }
+
+        $verified = false;
+        if ($password !== null) {
+            $verified = password_verify($login_code, $password->hash);
+        }
+
+        if (!$verified) {
             return $this->factory->createResponse()->withBody(
-                $this->stream->createStream(($this->html)('terms', [
+                $this->stream->createStream(($this->html)('login', [
                     'error' => [
-                        'fortee_name_duplicate' => !$no_record,
-                        'agree' => !$accepted_terms,
-                        'place' => !$matched_place,
+                        'fortee_name_not_found' => $password,
                     ],
                     'input' => [
                         'fortee_name' => $fortee_name,
-                        'display_name' => $display_name,
-                        'agree' => $accepted_terms,
-                        'place' => $matched_place ? $params['place'] : '',
                     ],
                 ]))
             );
         }
 
-        $login_code = $this->rand_gen->generateString(16, self::PASSWORD_CHARS);
-
-        $this->atlas->beginTransaction();
-        $new_player = $this->atlas->newRecord(Player::class, [
-            'fortee_name' => $fortee_name,
-            'display_name' => $display_name,
-            'created_at' => $this->now->format('Y-m-d H:i:s'),
-        ]);
-        $this->atlas->insert($new_player);
-
-        $new_password = $this->atlas->newRecord(Password::class, [
-            'player_id' => $new_player->id,
-            'hash' => password_hash($login_code, PASSWORD_DEFAULT),
-            'created_at' => $this->now->format('Y-m-d H:i:s'),
-        ]);
-        $this->atlas->insert($new_password);
-
-        assert(isset($new_player->id));
-        $this->session->id = (int)$new_player->id;
         $this->session->accepted_terms = true;
         $this->session->place = '#PHPerGolf2020inCoconeriCountryClub';
         $this->session->login_code = $login_code;

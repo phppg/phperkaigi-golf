@@ -51,7 +51,7 @@ $queue[] = function (ServerRequest $request, RequestHandler $handler) use ($http
 
     $uri = $request->getUri()->getPath();
 
-    if (!in_array($uri, ['/', '/terms'], true)) {
+    if (!in_array($uri, ['/', '/terms'], true) && !$session->isLoggedIn()) {
         $gen = $router->getGenerator();
 
         return $http->createResponse(302)->withHeader('Location', $gen->generate('terms'));

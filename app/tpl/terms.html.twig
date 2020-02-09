@@ -47,17 +47,21 @@
 		<h2 id="agreement">規約に同意してプレー開始</h2>
 		<form method="post">
 			<fieldset>
+				<legend>参加登録</legend>
 				<p>
 					<label>
 						アカウント名 (半角アルファベットと数字、ハイフンが利用可能です)<br>
 						<a href="https://fortee.jp/">fortee</a>アカウントを持っている場合は同じにしてください
-						<input type="text" name="fortee_name" required pattern="[-a-z0-9]+" maxlength="255">
+						{% if error.fortee_name_duplicate %}
+							<em class="input-error">このアカウント名は登録済みです。</em>
+						{% endif %}
+						<input type="text" name="fortee_name" required pattern="[-a-z0-9]+" maxlength="255" value="{{input.fortee_name}}">
 					</label>
 				</p>
 				<p>
 					<label>
 						ハンドルネーム (表示される名前)
-						<input type="text" name="display_name" required maxlength="255">
+						<input type="text" name="display_name" required maxlength="255" value="{{input.display_name}}">
 					</label>
 				</p>
 				<p>
@@ -79,12 +83,17 @@
 					</label>
 				</p>
 
-				<button type="submit">🏌同意してプレー開始する 🏌️‍♀️</button>
+				<div style="text-align: center;">
+					<button type="submit">🏌 同意してプレー開始する 🏌️‍♀️</button>
+				</div>
 			</fieldset>
 		</form>
+		<p>既に参加登録済みであれば<a href="{{ route('login') }}">ログイン</a>できます</p>
 	{% else %}
 		<h2 id="agreement">同意状態</h2>
 		<p>あなたは既に #利用規約 と #プライバシーポリシー に同意しています。</p>
-		<a href="{{ route('index') }}"><button type="button">🏌️‍♀️PHPer Code Golfをプレーする🏌</button></a>
+		<div style="text-align: center;">
+			<a href="{{ route('index') }}"><button type="button">🏌️‍♀️ PHPer Code Golfをプレーする 🏌</button></a>
+		</div>
 	{% endif %}
 {% endblock %}
