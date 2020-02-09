@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f304b67ce4e9117241c1f8f2e3d4de07",
+    "content-hash": "1d1b28b4e86a354e18a347bfd34ebbd1",
     "packages": [
         {
             "name": "atlas/mapper",
@@ -1399,16 +1399,16 @@
         },
         {
             "name": "php-playgrround/playground",
-            "version": "v0.1.1",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phppg/playground.git",
-                "reference": "ffaa3642d56876ec89e8177d51bcc10e98480183"
+                "reference": "4150c91ccc4ac8e6aaba2a241e1689856f46f425"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phppg/playground/zipball/ffaa3642d56876ec89e8177d51bcc10e98480183",
-                "reference": "ffaa3642d56876ec89e8177d51bcc10e98480183",
+                "url": "https://api.github.com/repos/phppg/playground/zipball/4150c91ccc4ac8e6aaba2a241e1689856f46f425",
+                "reference": "4150c91ccc4ac8e6aaba2a241e1689856f46f425",
                 "shasum": ""
             },
             "require": {
@@ -1439,7 +1439,7 @@
                     "role": "Developer"
                 }
             ],
-            "time": "2020-02-09T07:10:09+00:00"
+            "time": "2020-02-09T20:01:29+00:00"
         },
         {
             "name": "psr/container",
