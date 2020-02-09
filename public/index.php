@@ -17,11 +17,13 @@ use Relay\Relay;
 use Throwable;
 use Whoops\RunInterface as WhoopsInterface;
 use const PHP_VERSION;
+use function date_default_timezone_set;
 use function error_reporting;
 
 require __DIR__ . '/../vendor/autoload.php';
 
 error_reporting(E_ALL);
+date_default_timezone_set('Asia/Tokyo');
 
 $container = (include __DIR__ . '/../app/di.php');
 $container->get(WhoopsInterface::class)->register();
