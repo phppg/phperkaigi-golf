@@ -19,6 +19,7 @@
         "ext-curl": "*",
         "ext-intl": "*",
         "ext-mbstring": "*",
+        "akrabat/ip-address-middleware": "^1.0",
         "atlas/orm": "^3.1",
         "atlas/pdo": "^1.1",
         "atlas/query": "^1.3",
