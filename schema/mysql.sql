@@ -27,10 +27,11 @@ CREATE TABLE `passwords` (
 CREATE TABLE `saved_codes` (
   `id` MEDIUMINT unsigned NOT NULL AUTO_INCREMENT,
   `player_id` MEDIUMINT unsigned,
-  `code` MEDIUMTEXT,
-  `hole` VARCHAR(255),
-  `ipaddr` VARBINARY(16),
-  `stats` JSON,
+  `code` MEDIUMTEXT NOT NULL,
+  `original_code` MEDIUMTEXT NOT NULL,
+  `hole` VARCHAR(255) NOT NULL,
+  `ipaddr` VARBINARY(16) NOT NULL,
+  `stats` JSON NOT NULL,
   PRIMARY KEY (`id`),
   KEY `player_id` (`player_id`),
   KEY `hole` (`hole`)

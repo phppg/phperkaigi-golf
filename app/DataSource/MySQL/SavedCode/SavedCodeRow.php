@@ -11,10 +11,11 @@ use Atlas\Table\Row;
 /**
  * @property mixed $id mediumint(7,0) unsigned NOT NULL
  * @property mixed $player_id mediumint(7,0) unsigned
- * @property mixed $code mediumtext(16777215)
- * @property mixed $hole varchar(255)
- * @property mixed $ipaddr varbinary(16)
- * @property mixed $stats json
+ * @property mixed $code mediumtext(16777215) NOT NULL
+ * @property mixed $original_code mediumtext(16777215) NOT NULL
+ * @property mixed $hole varchar(255) NOT NULL
+ * @property mixed $ipaddr varbinary(16) NOT NULL
+ * @property mixed $stats json NOT NULL
  */
 class SavedCodeRow extends Row
 {
@@ -22,6 +23,7 @@ class SavedCodeRow extends Row
         'id' => null,
         'player_id' => null,
         'code' => null,
+        'original_code' => null,
         'hole' => null,
         'ipaddr' => null,
         'stats' => null,

@@ -8,15 +8,19 @@ use function array_unique;
 use function array_values;
 use function is_string;
 use function strtr;
+use Atlas\Orm\Atlas;
 use Aura\Router\Generator as RouteGenerator;
 use Cake\Chronos\Chronos;
 use const PASSWORD_DEFAULT;
 use PhpParser\Error as ParserError;
+use Playground\Code;
 use Playground\Code\ParsedCode;
 use Playground\Invoker;
 use Playground\Statistics;
 use Playground\Web\DataSource\MySQL\Password\Password;
 use Playground\Web\DataSource\MySQL\Player\Player;
+use Playground\Web\DataSource\MySQL\SavedCode\SavedCode;
+use Playground\Web\Hole;
 use Playground\Web\HoleManager;
 use Playground\Web\ParsedCodeFactory;
 use Playground\Web\Session;
@@ -35,6 +39,8 @@ final class GolfAction
     private const REASON_SYNTAX_ERROR = 'syntax_error';
     private const REASON_TIMEOUT = 'timeout';
 
+    private Atlas $atlas;
+    private Chronos $now;
     private HoleManager $manager;
     private Invoker $invoker;
     private ParsedCodeFactory $parsed_code_factory;
@@ -46,6 +52,8 @@ final class GolfAction
     private View\HtmlFactory $html;
 
     public function __construct(
+        Atlas $atlas,
+        Chronos $now,
         HoleManager $manager,
         Invoker $invoker,
         ParsedCodeFactory $parsed_code_factory,
@@ -56,6 +64,8 @@ final class GolfAction
         StreamFactory $stream,
         View\HtmlFactory $html
     ) {
+        $this->atlas = $atlas;
+        $this->now = $now;
         $this->manager = $manager;
         $this->invoker = $invoker;
         $this->parsed_code_factory = $parsed_code_factory;
@@ -103,6 +113,8 @@ final class GolfAction
         }
 
         if ($cupped_in === false) {
+            $this->saveCode($request, $hole, $code, $stats);
+        } elseif ($cupped_in === false) {
             $errors[self::REASON_NOT_MATCH_OUTPUT] = true;
         }
 
