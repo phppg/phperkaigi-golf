@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Playground\Web;
 
 use Aura\Router\RouterContainer;
+use Playground\Web\HoleManager;
 use Psr\Container\ContainerInterface as Container;
 use Psr\Http\Message\ResponseInterface as HttpResponse;
 use Psr\Http\Message\ResponseFactoryInterface as ResponseFactory;
@@ -93,7 +94,33 @@ $map->get('sandbox', '/sandbox', function (ResponseFactory $factory, StreamFacto
     ])));
 });
 
+$map->get('golf', '/golf', function (HoleManager $manager, ResponseFactory $factory, ServerRequest $request, StreamFactory $stream, View\HtmlFactory $html): HttpResponse {
+    parse_str($request->getUri()->getQuery(), $query);
+
+    $slug = $query['hole'] ?? null;
+
+    if (!is_string($slug) || !$manager->has($slug)) {
+        return $factory->createResponse(404)->withBody($stream->createStream($html('404', [])));
+    }
+
+    $hole = $manager->get($slug);
+
+    return $factory->createResponse()->withBody($stream->createStream($html('golf', [
+        'code' => $hole->getDefaultCode(),
+        'cupped_in' => null,
+        'hole' => $hole,
+        'accepted' => null,
+        'errors' => null,
+        'error_output' => null,
+        'output' => '',
+        'pretty_print' => null,
+        'stats' => null,
+    ])));
+});
+
 $map->post('post_sandbox', '/sandbox', fn(Http\SandboxAction $action, ServerRequest $request): HttpResponse => $action($request));
+
+$map->post('post_golf', '/golf', fn(Http\GolfAction $action, ServerRequest $request): HttpResponse => $action($request));
 
 $map->get('http.500', '/http/500', function () {
     throw new \RuntimeException('Expected unexpected Error!');

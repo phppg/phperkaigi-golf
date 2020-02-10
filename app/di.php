@@ -9,6 +9,8 @@ use Aura\Router\Generator as RouteGenerator;
 use Aura\Router\RouterContainer;
 use Bag2\Cookie;
 use Cake\Chronos\Chronos;
+use League\CommonMark\ConverterInterface as MarkdownConverter;
+use League\CommonMark\CommonMarkConverter;
 use DI;
 use function DI\autowire;
 use function DI\create;
@@ -88,6 +90,13 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
     File::class => factory(function (FileFactory $factory): File {
         return $factory->create('');
     }),
+    HoleManager::class => function (): HoleManager {
+        $manager = new HoleManager();
+        $manager->add('helloworld', new Hole\HelloWorld);
+        $manager->add('fizzbuzz', new Hole\FizzBuzz);
+
+        return $manager;
+    },
     Http\TermsAgreementAction::class => autowire(),
     Invoker::class => factory(function (Container $c): Invoker\ProcessInvoker {
         return new Invoker\ProcessInvoker(
@@ -160,6 +169,12 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
 
         return new Http\CookieJwtSession($serializer, $jwk, $jws_builder, $jws_loader, $jws_verifier, $now, $oven, $cookie_name);
     }),
+    MarkdownConverter::class => factory(function (CommonMarkConverter $converter) {
+        return new CommonMarkConverter([
+            'html_input' => 'allow',
+            'allow_unsafe_links' => true,
+        ]);
+    }),
     ParsedCodeFactory::class => autowire(),
     PrettyPrinterAbstract::class => create(PrettyPrinter\Standard::class),
     Psr17Factory::class => create(Psr17Factory::class),
@@ -186,7 +201,7 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
         return $storage->getSession();
     }),
     StreamFactoryInterface::class => get(Psr17Factory::class),
-    Twig::class => factory(function (Container $c, RouteGenerator $gen) {
+    Twig::class => factory(function (Container $c, RouteGenerator $gen, MarkdownConverter $md) {
         $is_production = $c->get('is_production');
 
         $twig = new Twig(new TwigFilesystemLoader([__DIR__ . '/tpl']), [
@@ -200,6 +215,14 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
             function (string $name, array $params = []) use ($gen): string {
                 return $gen->generate($name, $params) ?: '';
             }
+        ));
+
+        $twig->addFunction(new TwigFunction(
+            'markdown',
+            function (string $source) use ($md): string {
+                return $md->convertToHtml($source);
+            },
+            ['is_safe' => ['html']]
         ));
 
         return $twig;

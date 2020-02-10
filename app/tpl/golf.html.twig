@@ -1,0 +1,59 @@
+{% extends "_base.html.twig" %}
+{% block title %}login - ⛳ PHPer Code Golf by pixiv{% endblock %}
+{% block content %}
+	<h1><a href="{{route('index')}}">⛳</a> PHPer Code Golf by pixiv</h1>
+	<h2>{{ hole.title }}</h2>
+	<p>{{ markdown(hole.description) }}</p>
+	<form method="post" action="{{route('post_golf')}}">
+		<input type="hidden" name="hole" value="{{ hole.slug }}">
+		<textarea name="code" class="code" required>{{ code }}</textarea>
+		{% if cupped_in == true %}
+			<p>🎉 このコードは要件を満たしています。記録として保存されました 🏌️‍♀️</p>
+			<details>
+				<summary>コードのスコア</summary>
+				<table>
+					<tr>
+						<th>項目A(低いほど高評価)</th>
+						<td>{{ stats.chars }}</td>
+					</tr>
+					<tr>
+						<th>項目B(低いほど高評価)</th>
+						<td>{{ stats.lines }}</td>
+					</tr>
+					<tr>
+						<th>項目C(低いほど高評価)</th>
+						<td>{{ stats.tokens }}</td>
+					</tr>
+					<tr>
+						<th>項目D(低いほど高評価)</th>
+						<td>{{ stats.chars }}</td>
+					</tr>
+					<tr>
+						<th>項目E(高いほど高評価)</th>
+						<td>{{ stats.node_names|length }}</td>
+					</tr>
+				</table>
+			</details>
+		{% endif %}
+		<div style="text-align: center;">
+			<button type="submit">⛳ 実行</button>
+		</div>
+	</form>
+
+	{% if errors != null %}
+		<h3>Error</h3>
+		<ul>
+			{% if errors.syntax_error %}
+				<li class="code-error">Syntax error</li>
+			{% endif %}
+			{% if errors.timeout %}
+				<li class="code-error">実行時間がタイムアウトになりました</li>
+			{% endif %}
+			{% if errors.not_match_output %}
+				<li class="code-error">出力が問題の要件に合っていません</li>
+			{% endif %}
+		</ul>
+	{% endif %}
+
+	{% include "_code_result.html.twig" %}
+{% endblock %}
