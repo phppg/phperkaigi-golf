@@ -28,5 +28,12 @@
 			<li><a href="{{route('phpinfo')}}"><code>phpinfo.php</code></a> <em class="input-error">この中にPHPerトークンはありません</em></li>
 			<li><a href="{{route('phpini')}}"><code>php.ini</code></a> <em class="input-error">この中にPHPerトークンはありません</em></li>
 		</ul>
+
+		<h3>ゴルフ</h3>
+		<h4>超初級コース</h4>
+		<ol>
+			<li><a href="{{route('golf')}}?hole=helloworld">Hello, world!</a></li>
+			<li><a href="{{route('golf')}}?hole=fizzbuzz">FizzBuzz問題</a></li>
+		</ol>
 	{% endif %}
 {% endblock %}
