@@ -8,6 +8,7 @@ use function array_unique;
 use function array_values;
 use function is_string;
 use function strtr;
+use function inet_pton;
 use Atlas\Orm\Atlas;
 use Aura\Router\Generator as RouteGenerator;
 use Cake\Chronos\Chronos;
@@ -112,8 +113,8 @@ final class GolfAction
             $cupped_in = $hole->isCuppedIn($code, $output);
         }
 
-        if ($cupped_in === false) {
-            $this->saveCode($request, $hole, $code, $stats);
+        if ($cupped_in === true) {
+            $this->saveCode($request, $hole, $original, $code, $stats);
         } elseif ($cupped_in === false) {
             $errors[self::REASON_NOT_MATCH_OUTPUT] = true;
         }
@@ -147,6 +148,34 @@ final class GolfAction
         }
 
         return [$code, $stats];
+    }
+
+    private function saveCode(ServerRequest $request, Hole $hole, string $original, Code $code, Statistics $stats): void
+    {
+        $session = $request->getAttribute('session');
+        assert($session instanceof Session);
+
+        $json = json_encode($stats->toArray());
+
+        $player_record = $this->atlas->select(Player::class)
+            ->where('id =', $session->id)
+            ->fetchRecord();
+
+        $ip_addr = inet_pton($request->getAttribute('ip_address'));
+
+        assert($ip_addr !== false);
+
+        $new_saved_code = $this->atlas->newRecord(SavedCode::class, [
+            'player_id' => $player_record->id,
+            'hole' => $hole->getSlug(),
+            'code' => (string)$code,
+            'original_code' => $original,
+            'ipaddr' => $ip_addr,
+            'stats' => $json,
+            'created_at' => $this->now->format('Y-m-d H:i:s'),
+        ]);
+
+        $this->atlas->insert($new_saved_code);
     }
 
     /**
