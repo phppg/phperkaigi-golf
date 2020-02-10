@@ -20,6 +20,7 @@ final class HelloWorld implements Hole
         [Hello World]: https://ja.wikipedia.org/wiki/Hello_world
         MD;
     private const EXPECTED_OUTPUT = 'Hello, world!';
+    private const REWORD_TOKEN = '#Takusan_Matasete_Gomennasai';
 
     public function getDefaultCode(): string
     {
@@ -36,6 +37,11 @@ final class HelloWorld implements Hole
     public function getDescription(): string
     {
         return self::DESCRIPTION;
+    }
+
+    public function getRewordToken(): string
+    {
+        return self::REWORD_TOKEN;
     }
 
     public function getSlug(): string

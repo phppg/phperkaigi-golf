@@ -16,6 +16,8 @@ interface Hole
 
     public function getDescription(): string;
 
+    public function getRewordToken(): string;
+
     public function getSlug(): string;
 
     public function isCuppedIn(Code $code, string $output): bool;

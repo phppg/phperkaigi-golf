@@ -119,6 +119,7 @@ Fizz
 Fizz
 Buzz
 OUTPUT;
+    private const REWORD_TOKEN = '#FizzBuzzFizzBuzzFizzBuzz';
 
     public function getDefaultCode(): string
     {
@@ -135,6 +136,11 @@ OUTPUT;
     public function getDescription(): string
     {
         return self::DESCRIPTION;
+    }
+
+    public function getRewordToken(): string
+    {
+        return self::REWORD_TOKEN;
     }
 
     public function getSlug(): string

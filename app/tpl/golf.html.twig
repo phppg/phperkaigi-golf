@@ -9,6 +9,7 @@
 		<textarea name="code" class="code" required>{{ code }}</textarea>
 		{% if cupped_in == true %}
 			<p>🎉 このコードは要件を満たしています。記録として保存されました 🏌️‍♀️</p>
+			<p><code class="token">{{ hole.rewordToken }}</code></p>
 			<details>
 				<summary>コードのスコア</summary>
 				<table>
