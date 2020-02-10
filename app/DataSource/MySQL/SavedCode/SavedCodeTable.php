@@ -66,10 +66,10 @@ class SavedCodeTable extends Table
             'primary' => false,
             'options' => null,
         ],
-        'hash' => [
-            'name' => 'hash',
+        'ipaddr' => [
+            'name' => 'ipaddr',
             'type' => 'varbinary',
-            'size' => 32,
+            'size' => 16,
             'scale' => null,
             'notnull' => false,
             'default' => null,
@@ -77,21 +77,10 @@ class SavedCodeTable extends Table
             'primary' => false,
             'options' => null,
         ],
-        'published' => [
-            'name' => 'published',
-            'type' => 'tinyint',
-            'size' => 3,
-            'scale' => 0,
-            'notnull' => false,
-            'default' => null,
-            'autoinc' => false,
-            'primary' => false,
-            'options' => null,
-        ],
-        'ipaddr' => [
-            'name' => 'ipaddr',
-            'type' => 'varbinary',
-            'size' => 16,
+        'stats' => [
+            'name' => 'stats',
+            'type' => 'json',
+            'size' => null,
             'scale' => null,
             'notnull' => false,
             'default' => null,
@@ -106,9 +95,8 @@ class SavedCodeTable extends Table
         'player_id',
         'code',
         'hole',
-        'hash',
-        'published',
         'ipaddr',
+        'stats',
     ];
 
     const COLUMN_DEFAULTS = [
@@ -116,9 +104,8 @@ class SavedCodeTable extends Table
         'player_id' => null,
         'code' => null,
         'hole' => null,
-        'hash' => null,
-        'published' => null,
         'ipaddr' => null,
+        'stats' => null,
     ];
 
     const PRIMARY_KEY = [

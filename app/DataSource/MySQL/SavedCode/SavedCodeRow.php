@@ -13,9 +13,8 @@ use Atlas\Table\Row;
  * @property mixed $player_id mediumint(7,0) unsigned
  * @property mixed $code mediumtext(16777215)
  * @property mixed $hole varchar(255)
- * @property mixed $hash varbinary(32)
- * @property mixed $published tinyint(3,0)
  * @property mixed $ipaddr varbinary(16)
+ * @property mixed $stats json
  */
 class SavedCodeRow extends Row
 {
@@ -24,8 +23,7 @@ class SavedCodeRow extends Row
         'player_id' => null,
         'code' => null,
         'hole' => null,
-        'hash' => null,
-        'published' => null,
         'ipaddr' => null,
+        'stats' => null,
     ];
 }

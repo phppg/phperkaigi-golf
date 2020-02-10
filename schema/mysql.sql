@@ -29,9 +29,8 @@ CREATE TABLE `saved_codes` (
   `player_id` MEDIUMINT unsigned,
   `code` MEDIUMTEXT,
   `hole` VARCHAR(255),
-  `hash` VARBINARY(32) COMMENT "SHA-256 Digest",
-  `published` TINYINT(1),
   `ipaddr` VARBINARY(16),
+  `stats` JSON,
   PRIMARY KEY (`id`),
   KEY `player_id` (`player_id`),
   KEY `hole` (`hole`)
