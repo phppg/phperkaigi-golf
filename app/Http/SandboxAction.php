@@ -73,11 +73,14 @@ final class SandboxAction
 
         [$code, $stats] = $this->parseAndStats($original);
 
+        $output = null;
+        $error_output = null;
+
         if ($code === null) {
             $errors[self::REASON_SYNTAX_ERROR] = true;
+        } else {
+            [$output, $error_output, $errors] = $this->execProcess($code, $errors);
         }
-
-        [$output, $error_output, $errors] = $this->execProcess($code, $errors);
 
         $no_error = array_values(array_unique($errors)) === [false];
 
