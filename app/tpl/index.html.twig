@@ -10,7 +10,7 @@
 	<p><dfn>PHPer Code Golf</dfn>はPHPに特化したコードゴルフ場です。一般的なコードゴルフでは「ソースコードの短かさ」によって競われますが、PHPer Code Golf by pixivでは「トークン数」「文の数」といった観点からソースコードをスコアリングします。</p>
 
 
-	{% if not session.isAcceptedTerms %}
+	{% if not session.isLoggedIn %}
 		<div style="text-align: center;">
 			<a href="{{route('terms')}}"><button type="button">🏌 利用規約の確認と参加登録に進む 🏌️‍♀️</button></a>
 		</div>
