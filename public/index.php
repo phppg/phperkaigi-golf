@@ -17,6 +17,7 @@ use Psr\Http\Message\StreamFactoryInterface as StreamFactory;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Relay\Relay;
+use RKA\Middleware\IpAddress;
 use Throwable;
 use Whoops\RunInterface as WhoopsInterface;
 
@@ -44,6 +45,7 @@ $queue = [];
 
 $queue[] = fn(ServerRequest $request, RequestHandler $handler): HttpResponse
     => $handler->handle($request)->withHeader('X-Powered-By', 'PHP/' . PHP_VERSION)->withHeader('X-Robots-Tag', 'noindex');
+$queue[] = new IpAddress();
 $queue[] = $container->get(Http\Dispatcher::class);
 $queue[] = $container->get(Http\SessionSetter::class);
 $queue[] = function (ServerRequest $request, RequestHandler $handler) use ($http, $router): HttpResponse {
