@@ -49,6 +49,11 @@ final class HelloWorld implements Hole
         return self::SLUG;
     }
 
+    public function getStdin(): ?string
+    {
+        return null;
+    }
+
     public function getTitle(): string
     {
         return self::TITLE;

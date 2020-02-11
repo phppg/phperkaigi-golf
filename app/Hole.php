@@ -20,5 +20,7 @@ interface Hole
 
     public function getSlug(): string;
 
+    public function getStdin(): ?string;
+
     public function isCuppedIn(Code $code, string $output): bool;
 }
