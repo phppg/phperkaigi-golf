@@ -31,6 +31,7 @@ use Psr\Http\Message\ResponseInterface as HttpResponse;
 use Psr\Http\Message\ServerRequestInterface as ServerRequest;
 use Psr\Http\Message\StreamFactoryInterface as StreamFactory;
 use RandomLib\Generator as RandomGenerator;
+use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
 
@@ -105,7 +106,11 @@ final class GolfAction
             $errors[self::REASON_SYNTAX_ERROR] = true;
         }
 
-        [$output, $error_output, $errors] = $this->execProcess($code, $errors);
+        $output = null;
+        $error_output = null;
+        if ($code !== null) {
+            [$output, $error_output, $errors] = $this->execProcess($code, $errors, $hole);
+        }
 
         $cupped_in = null;
 
@@ -115,7 +120,7 @@ final class GolfAction
 
         if ($cupped_in === true) {
             $this->saveCode($request, $hole, $original, $code, $stats);
-        } elseif ($cupped_in === false) {
+        } else {
             $errors[self::REASON_NOT_MATCH_OUTPUT] = true;
         }
 
@@ -182,21 +187,25 @@ final class GolfAction
      * @param array{syntax_error:bool,timeout:bool} $errors
      * @return array{0:?string,1:?string,2:array{syntax_error:bool,timeout:bool}}
      */
-    private function execProcess(ParsedCode $code, array $errors): array
+    private function execProcess(ParsedCode $code, array $errors, Hole $hole): array
     {
         $output = null;
         $error_output = null;
 
+        $stdin = $hole->getStdin();
+
         try {
-            $proc = ($this->invoker)->invoke($code);
+            $proc = ($this->invoker)->invoke($code, $stdin);
         } catch (ProcessTimedOutException $e) {
             $proc = $e->getProcess();
             $errors[self::REASON_TIMEOUT] = true;
         } catch (ProcessFailedException $e) {
             $proc = $e->getProcess();
         } finally {
-            $output = $proc->getOutput();
-            $error_output = $proc->getErrorOutput();
+            if (isset($proc)) {
+                $output = $proc->getOutput();
+                $error_output = $proc->getErrorOutput();
+            }
         }
 
         return [$output, $error_output, $errors];

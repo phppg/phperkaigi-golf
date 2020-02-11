@@ -94,6 +94,7 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
         $manager = new HoleManager();
         $manager->add('helloworld', new Hole\HelloWorld);
         $manager->add('fizzbuzz', new Hole\FizzBuzz);
+        $manager->add('arrayconvert', new Hole\ArrayConvert);
 
         return $manager;
     },

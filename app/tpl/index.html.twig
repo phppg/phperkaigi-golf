@@ -2,6 +2,8 @@
 {% block title %}⛳ PHPer Code Golf by pixiv{% endblock %}
 {% block content %}
 	<h1><a href="{{route('index')}}">⛳</a> PHPer Code Golf by pixiv</h1>
+	<p><strong>NEWS:</strong> 14時42分 上級コース『<a href="{{route('golf')}}?hole=arrayconvert">配列を展開せよ</a>』を追加しました！ 大変お待たせしました</p>
+	<p><strong>NEWS:</strong> 12時45分 データベースをリセットしました。それ以前に利用していた人は再度登録してください</p>
 	<p>お題に沿ったプログラムをいかに短く書くかを競う<dfn>コードゴルフ</dfn>という競技があります。</p>
 	<blockquote cite="https://ja.wikipedia.org/w/index.php?title=%E3%82%B3%E3%83%BC%E3%83%89%E3%82%B4%E3%83%AB%E3%83%95&oldid=65931111" title="出典: フリー百科事典『ウィキペディア（Wikipedia）』 コードゴルフ 2017-10-14 21:52:35版">
 		<p><dfn>コードゴルフ</dfn>はコンピュータプログラミング・コンテストの一種。 参加者は与えられたアルゴリズムを、可能な限りもっとも短いソースコードで記述することを競う。バイナリサイズではなく、ソースコードの文字数がスコアとなる。「Perl golf」など、トーナメントで使用されるプログラミング言語の名前がつけられることもある。ショートコーディング、コードパズル等とも呼ばれる。</p>
@@ -28,6 +30,10 @@
 		<ol>
 			<li><a href="{{route('golf')}}?hole=helloworld">Hello, world!</a></li>
 			<li><a href="{{route('golf')}}?hole=fizzbuzz">FizzBuzz問題</a></li>
+		</ol>
+		<h4>上級コース</h4>
+		<ol>
+			<li><a href="{{route('golf')}}?hole=arrayconvert">配列を展開せよ</a></li>
 		</ol>
 	{% endif %}
 {% endblock %}

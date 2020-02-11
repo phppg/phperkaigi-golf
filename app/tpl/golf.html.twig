@@ -6,6 +6,7 @@
 	<p>{{ markdown(hole.description) }}</p>
 	<form method="post" action="{{route('post_golf')}}">
 		<input type="hidden" name="hole" value="{{ hole.slug }}">
+		<h3>コード入力</h3>
 		<textarea name="code" class="code" required>{{ code }}</textarea>
 		{% if cupped_in == true %}
 			<p>🎉 このコードは要件を満たしています。記録として保存されました 🏌️‍♀️</p>
