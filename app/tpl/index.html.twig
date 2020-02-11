@@ -16,12 +16,6 @@
 		</div>
 		{% include "_login_form.html.twig" %}
 	{% else %}
-		<details>
-			<summary><mark>ログインコードを控えておいてください</mark></summary>
-			<p>ほかの端末・ブラウザからログインするときや、セッションが切れてしまったときのためにログインコードを必ずバックアップしておいてください。</p>
-			<pre><code>{{ session.login_code }}</code></pre>
-			<p>このログインコードはサーバー側には保持していないので、紛失した場合は個別に再発行いたします。</p>
-		</details>
 
 		<ul>
 			<li><a href="{{route('sandbox')}}">砂場遊び</a></li>

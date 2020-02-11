@@ -21,9 +21,22 @@ final class SessionSetter implements MiddlewareInterface
     public function process(ServerRequest $request, RequestHandler $handler): HttpResponse
     {
         $cookies = $request->getCookieParams();
+
+        $id = $cookies['id'] ?? null;
+        $username = $cookies['username'] ?? null;
         $this->session_storage->fromRequest($request);
 
-        $request = $request->withAttribute('session', $this->session_storage->getSession());
+        $session = $this->session_storage->getSession();
+
+        if ($id !== null) {
+            $session->id = (int)$id;
+        }
+
+        if ($username !== null) {
+            $session->name = $username;
+        }
+
+        $request = $request->withAttribute('session', $session);
 
         return $this->session_storage->writeTo($handler->handle($request));
     }

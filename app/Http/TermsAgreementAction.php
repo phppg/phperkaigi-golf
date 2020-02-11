@@ -6,6 +6,7 @@ namespace Playground\Web\Http;
 
 use Atlas\Orm\Atlas;
 use Aura\Router\Generator as RouteGenerator;
+use Bag2\Cookie\Oven;
 use Cake\Chronos\Chronos;
 use const PASSWORD_DEFAULT;
 use function password_hash;
@@ -28,6 +29,7 @@ final class TermsAgreementAction
 
     private Atlas $atlas;
     private Chronos $now;
+    private Oven $oven;
     private ResponseFactory $factory;
     private RouteGenerator $route_gen;
     private RandomGenerator $rand_gen;
@@ -38,6 +40,7 @@ final class TermsAgreementAction
     public function __construct(
         Atlas $atlas,
         Chronos $now,
+        Oven $oven,
         ResponseFactory $factory,
         RouteGenerator $route_gen,
         RandomGenerator $rand_gen,
@@ -47,6 +50,7 @@ final class TermsAgreementAction
     ) {
         $this->atlas = $atlas;
         $this->now = $now;
+        $this->oven = $oven;
         $this->factory = $factory;
         $this->rand_gen = $rand_gen;
         $this->route_gen = $route_gen;
@@ -70,7 +74,6 @@ final class TermsAgreementAction
             ->where('fortee_name =', $fortee_name)
             ->fetchRecord();
         $no_record = $player_record === null;
-
         if (!($accepted_terms && $matched_place && $no_record)) {
             return $this->factory->createResponse()->withBody(
                 $this->stream->createStream(($this->html)('terms', [
@@ -114,7 +117,12 @@ final class TermsAgreementAction
 
         $this->atlas->commit();
 
-        return $this->factory->createResponse(302)
+        $response = $this->factory->createResponse(302)
             ->withHeader('Location', $this->route_gen->generate('index'));
+
+        $this->oven->add('username', $fortee_name);
+        $this->oven->add('id', $new_player->id);
+
+        return $this->oven->appendTo($response);
     }
 }
