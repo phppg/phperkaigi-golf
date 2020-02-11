@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ec06ec8ea3fc8e553f7213ef5048ea31",
+    "content-hash": "43a6442cec2b91cb668ff29264494d58",
     "packages": [
         {
             "name": "akrabat/ip-address-middleware",
@@ -1526,16 +1526,16 @@
         },
         {
             "name": "php-playgrround/playground",
-            "version": "v0.2.2",
+            "version": "v0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phppg/playground.git",
-                "reference": "c0013680fd3e01d2333f9cd985f0a4e3661795f9"
+                "reference": "08b2fb46a579bc4e67a9d8b9160d3261562ab6b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phppg/playground/zipball/c0013680fd3e01d2333f9cd985f0a4e3661795f9",
-                "reference": "c0013680fd3e01d2333f9cd985f0a4e3661795f9",
+                "url": "https://api.github.com/repos/phppg/playground/zipball/08b2fb46a579bc4e67a9d8b9160d3261562ab6b2",
+                "reference": "08b2fb46a579bc4e67a9d8b9160d3261562ab6b2",
                 "shasum": ""
             },
             "require": {
@@ -1566,7 +1566,7 @@
                     "role": "Developer"
                 }
             ],
-            "time": "2020-02-10T03:25:13+00:00"
+            "time": "2020-02-11T05:12:43+00:00"
         },
         {
             "name": "psr/container",
