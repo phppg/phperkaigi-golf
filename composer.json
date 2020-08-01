@@ -53,7 +53,7 @@
     "require-dev": {
         "atlas/cli": "^2.2",
         "phpunit/phpunit": "^9.0",
-        "psy/psysh": "^0.9.12"
+        "psy/psysh": "^0.10.4"
     },
     "config": {
         "sort-packages": true
