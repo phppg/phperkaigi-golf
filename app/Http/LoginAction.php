@@ -97,6 +97,6 @@ final class LoginAction
         $this->atlas->commit();
 
         return $this->factory->createResponse(302)
-            ->withHeader('Location', $this->route_gen->generate('index'));
+            ->withHeader('Location', $this->route_gen->generate('index') ?: '');
     }
 }

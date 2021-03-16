@@ -14,6 +14,7 @@ use RuntimeException;
 use function ob_get_clean;
 use function ob_start;
 use function phpinfo;
+use function safe\file_get_contents;
 
 $router = new RouterContainer();
 $map = $router->getMap();

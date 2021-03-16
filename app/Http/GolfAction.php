@@ -138,7 +138,7 @@ final class GolfAction
     }
 
     /**
-     * @return array{0:?Code,1:?Statistics}
+     * @return array{0:?ParsedCode,1:?Statistics}
      */
     private function parseAndStats(string $source_code): array
     {

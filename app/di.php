@@ -26,7 +26,7 @@ use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use League\CommonMark\CommonMarkConverter;
-use League\CommonMark\ConverterInterface as MarkdownConverter;
+use League\CommonMark\MarkdownConverterInterface as MarkdownConverter;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7Server\ServerRequestCreator;
 use PhpParser\PrettyPrinter;
