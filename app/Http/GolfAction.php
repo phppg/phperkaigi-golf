@@ -111,11 +111,12 @@ final class GolfAction
 
         $cupped_in = null;
 
-        if ($code !== null) {
+        if (isset($code, $output)) {
             $cupped_in = $hole->isCuppedIn($code, $output);
         }
 
         if ($cupped_in === true) {
+            assert(isset($code, $stats));
             $this->saveCode($request, $hole, $original, $code, $stats);
         } else {
             $errors[self::REASON_NOT_MATCH_OUTPUT] = true;
