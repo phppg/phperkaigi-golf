@@ -3,5 +3,5 @@ parameters:
   paths:
     - app/
     - public/index.php
-  autoload_files:
+  bootstrapFiles:
     - vendor/autoload.php
