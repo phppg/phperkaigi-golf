@@ -7,8 +7,6 @@ namespace Playground\Web\Http;
 use Atlas\Orm\Atlas;
 use Aura\Router\Generator as RouteGenerator;
 use Cake\Chronos\Chronos;
-use const PASSWORD_DEFAULT;
-use function password_hash;
 use Playground\Web\DataSource\MySQL\Password\Password;
 use Playground\Web\DataSource\MySQL\Player\Player;
 use Playground\Web\Session;

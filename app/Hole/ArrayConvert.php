@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Playground\Web\Hole;
 
 use Playground\Code;
-use Playground\Code\ParsedCode;
 use Playground\Web\Hole;
 
 final class ArrayConvert implements Hole
 {
     private const SLUG = 'arrayconvert';
     private const TITLE = '配列を展開せよ';
-    private const DESCRIPTION = <<<MD
+    private const DESCRIPTION = <<<'MD'
         あるサイトにのAPIにリクエストを送ると、結果がとても変な形式のJSONで帰ってきてしまいます。
 
         ```
@@ -33,7 +32,7 @@ final class ArrayConvert implements Hole
 
     public function getDefaultCode(): string
     {
-       return <<<'PHP'
+        return <<<'PHP'
 <?php
 
 declare(strict_types=1);

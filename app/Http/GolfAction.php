@@ -4,21 +4,14 @@ declare(strict_types=1);
 
 namespace Playground\Web\Http;
 
-use function array_unique;
-use function array_values;
-use function is_string;
-use function strtr;
-use function inet_pton;
 use Atlas\Orm\Atlas;
 use Aura\Router\Generator as RouteGenerator;
 use Cake\Chronos\Chronos;
-use const PASSWORD_DEFAULT;
 use PhpParser\Error as ParserError;
 use Playground\Code;
 use Playground\Code\ParsedCode;
 use Playground\Invoker;
 use Playground\Statistics;
-use Playground\Web\DataSource\MySQL\Password\Password;
 use Playground\Web\DataSource\MySQL\Player\Player;
 use Playground\Web\DataSource\MySQL\SavedCode\SavedCode;
 use Playground\Web\Hole;
@@ -31,9 +24,13 @@ use Psr\Http\Message\ResponseInterface as HttpResponse;
 use Psr\Http\Message\ServerRequestInterface as ServerRequest;
 use Psr\Http\Message\StreamFactoryInterface as StreamFactory;
 use RandomLib\Generator as RandomGenerator;
-use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
+use function array_unique;
+use function array_values;
+use function inet_pton;
+use function is_string;
+use function strtr;
 
 final class GolfAction
 {
@@ -89,7 +86,8 @@ final class GolfAction
 
         if (!is_string($slug) || !$this->manager->has($slug)) {
             return $this->factory->createResponse(404)->withBody(
-                $this->stream->createStream(($this->html)('404', [])));
+                $this->stream->createStream(($this->html)('404', []))
+            );
         }
 
         $hole = $this->manager->get($slug);
@@ -98,7 +96,6 @@ final class GolfAction
             self::REASON_SYNTAX_ERROR => false,
             self::REASON_TIMEOUT => false,
         ];
-
 
         [$code, $stats] = $this->parseAndStats($original);
 

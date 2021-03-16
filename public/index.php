@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace Playground\Web;
 
 use Aura\Router\RouterContainer;
-use function date_default_timezone_set;
-use function error_reporting;
+use Closure;
 use Laminas\HttpHandlerRunner\Emitter\EmitterInterface as Emitter;
 use Nyholm\Psr7\Factory\Psr17Factory;
-use const PHP_VERSION;
 use Psr\Http\Message\ResponseFactoryInterface as ResponseFactory;
 use Psr\Http\Message\ResponseInterface as HttpResponse;
 use Psr\Http\Message\ServerRequestInterface as ServerRequest;
@@ -18,8 +16,10 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Relay\Relay;
 use RKA\Middleware\IpAddress;
-use Throwable;
 use Whoops\RunInterface as WhoopsInterface;
+use function date_default_timezone_set;
+use function error_reporting;
+use const PHP_VERSION;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -37,13 +37,13 @@ if (PHP_SAPI === 'cli-server' && is_file(__DIR__ . $server_request->getUri()->ge
 $http = $container->get(Psr17Factory::class);
 $router = $container->get(RouterContainer::class);
 
-$_404 = fn(ResponseFactory $factory, StreamFactory $stream, View\HtmlFactory $html): HttpResponse
+$_404 = fn (ResponseFactory $factory, StreamFactory $stream, View\HtmlFactory $html): HttpResponse
     => $factory->createResponse(404)->withBody($stream->createStream($html('404', [])));
 
-/** @var array<\Closure|MiddlewareInterface> */
+/** @var array<Closure|MiddlewareInterface> */
 $queue = [];
 
-$queue[] = fn(ServerRequest $request, RequestHandler $handler): HttpResponse
+$queue[] = fn (ServerRequest $request, RequestHandler $handler): HttpResponse
     => $handler->handle($request)->withHeader('X-Powered-By', 'PHP/' . PHP_VERSION)->withHeader('X-Robots-Tag', 'noindex');
 $queue[] = new IpAddress();
 $queue[] = $container->get(Http\Dispatcher::class);

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Playground\Web;
 
 use JsonSerializable;
-use stdClass;
 
 final class Session implements JsonSerializable
 {

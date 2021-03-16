@@ -8,8 +8,6 @@ use Atlas\Orm\Atlas;
 use Aura\Router\Generator as RouteGenerator;
 use Bag2\Cookie\Oven;
 use Cake\Chronos\Chronos;
-use const PASSWORD_DEFAULT;
-use function password_hash;
 use Playground\Web\DataSource\MySQL\Password\Password;
 use Playground\Web\DataSource\MySQL\Player\Player;
 use Playground\Web\Session;
@@ -19,6 +17,8 @@ use Psr\Http\Message\ResponseInterface as HttpResponse;
 use Psr\Http\Message\ServerRequestInterface as ServerRequest;
 use Psr\Http\Message\StreamFactoryInterface as StreamFactory;
 use RandomLib\Generator as RandomGenerator;
+use function password_hash;
+use const PASSWORD_DEFAULT;
 
 final class TermsAgreementAction
 {

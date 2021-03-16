@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Playground\Web;
 
-use Closure;
 use Playground\Code;
-use Playground\File;
 
 interface Hole
 {

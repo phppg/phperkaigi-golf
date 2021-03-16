@@ -5,19 +5,18 @@ declare(strict_types=1);
 namespace Playground\Web\Hole;
 
 use Playground\Code;
-use Playground\Code\ParsedCode;
 use Playground\Web\Hole;
 
 final class FizzBuzz implements Hole
 {
     private const SLUG = 'fizzbuzz';
     private const TITLE = 'FizzBuzz問題';
-    private const DESCRIPTION = <<<MD
+    private const DESCRIPTION = <<<'MD'
         「FizzBuzz」とは、1から数え上げるパーティゲームの一種です。ただし、その数が『3の倍数』のときは数の代わりに“Fizz”、『5の倍数』のときは“Buzz”、そして『15の倍数』のときは“FizzBuzz”と言わなければいけません。
 
         今回の問題では1から100までの数字を数え上げて、それぞれの行を改行区切りで出力(`echo`)してください。余分な出力を加えてはいけません。
         MD;
-    private const EXPECTED_OUTPUT = <<<OUTPUT
+    private const EXPECTED_OUTPUT = <<<'OUTPUT'
 1
 2
 Fizz
@@ -123,7 +122,7 @@ OUTPUT;
 
     public function getDefaultCode(): string
     {
-       return <<<'PHP'
+        return <<<'PHP'
            <?php
 
            declare(strict_types=1);
@@ -131,7 +130,6 @@ OUTPUT;
 
            PHP;
     }
-
 
     public function getDescription(): string
     {

@@ -9,13 +9,7 @@ use Aura\Router\Generator as RouteGenerator;
 use Aura\Router\RouterContainer;
 use Bag2\Cookie;
 use Cake\Chronos\Chronos;
-use League\CommonMark\ConverterInterface as MarkdownConverter;
-use League\CommonMark\CommonMarkConverter;
 use DI;
-use function DI\autowire;
-use function DI\create;
-use function DI\factory;
-use function DI\get;
 use Jose\Component\Checker;
 use Jose\Component\Checker\ClaimCheckerManager as JoseClaimCheckerManager;
 use Jose\Component\Checker\HeaderCheckerManager as JoseHeaderCheckerManager;
@@ -31,6 +25,8 @@ use Jose\Component\Signature\Serializer\CompactSerializer as JoseSerializer;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+use League\CommonMark\CommonMarkConverter;
+use League\CommonMark\ConverterInterface as MarkdownConverter;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7Server\ServerRequestCreator;
 use PhpParser\PrettyPrinter;
@@ -39,24 +35,28 @@ use Playground\CommandBuilder;
 use Playground\File;
 use Playground\Invoker;
 use Playground\Process\SymfonyProcessFactory as ProcessFactory;
-use Playground\Web\Http;
-use Playground\Web\View;
 use Psr\Container\ContainerInterface as Container;
-use Psr\Http\Message\{RequestFactoryInterface, RequestInterface, ResponseFactoryInterface, ResponseInterface, ServerRequestFactoryInterface, ServerRequestInterface, StreamFactoryInterface, StreamInterface, UploadedFileFactoryInterface, UploadedFileInterface, UriFactoryInterface, UriInterface};
+use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Message\UploadedFileFactoryInterface;
+use Psr\Http\Message\UriFactoryInterface;
 use Ramsey\Uuid\UuidFactory;
 use Ramsey\Uuid\UuidFactoryInterface;
 use RandomLib\Factory as RandomFactory;
 use RandomLib\Generator as RandomGenerator;
 use SecurityLib;
-use Symfony\Component\Console\Input\Input;
 use Twig\Environment as Twig;
-use Twig\Extension\OptimizerExtension as TwigOptimizer;
 use Twig\Loader\FilesystemLoader as TwigFilesystemLoader;
-use Twig\NodeVisitor\OptimizerNodeVisitor;
 use Twig\TwigFunction;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run as Whoops;
 use Whoops\RunInterface as WhoopsInterface;
+use function DI\autowire;
+use function DI\create;
+use function DI\factory;
+use function DI\get;
 
 $builder = new DI\ContainerBuilder();
 // $builder->enableCompilation(__DIR__ . '/../cache');
@@ -92,9 +92,9 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
     }),
     HoleManager::class => function (): HoleManager {
         $manager = new HoleManager();
-        $manager->add('helloworld', new Hole\HelloWorld);
-        $manager->add('fizzbuzz', new Hole\FizzBuzz);
-        $manager->add('arrayconvert', new Hole\ArrayConvert);
+        $manager->add('helloworld', new Hole\HelloWorld());
+        $manager->add('fizzbuzz', new Hole\FizzBuzz());
+        $manager->add('arrayconvert', new Hole\ArrayConvert());
 
         return $manager;
     },
@@ -135,7 +135,7 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
         ], [new JWSTokenSupport()]);
     }),
     JWSSerializerManager::class => factory(function (): JWSSerializerManager {
-        return new JWSSerializerManager([new JoseSerializer]);
+        return new JWSSerializerManager([new JoseSerializer()]);
     }),
     JWSBuilder::class => factory(function (JoseAlgorithmManager $algo): JWSBuilder {
         return new JWSBuilder($algo);
@@ -232,7 +232,7 @@ $builder->addDefinitions((include __DIR__ . '/../config.php') + [
     UriFactoryInterface::class => get(Psr17Factory::class),
     UuidFactoryInterface::class => get(UuidFactory::class),
     WhoopsInterface::class => factory(function () {
-        $whoops = new Whoops;
+        $whoops = new Whoops();
         $whoops->appendHandler(new PrettyPageHandler());
 
         return $whoops;

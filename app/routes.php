@@ -5,27 +5,27 @@ declare(strict_types=1);
 namespace Playground\Web;
 
 use Aura\Router\RouterContainer;
-use Playground\Web\HoleManager;
 use Psr\Container\ContainerInterface as Container;
-use Psr\Http\Message\ResponseInterface as HttpResponse;
 use Psr\Http\Message\ResponseFactoryInterface as ResponseFactory;
+use Psr\Http\Message\ResponseInterface as HttpResponse;
 use Psr\Http\Message\ServerRequestInterface as ServerRequest;
 use Psr\Http\Message\StreamFactoryInterface as StreamFactory;
-use function ob_start;
+use RuntimeException;
 use function ob_get_clean;
+use function ob_start;
 use function phpinfo;
 
 $router = new RouterContainer();
 $map = $router->getMap();
 
-$map->get('index', '/', fn(
+$map->get('index', '/', fn (
     ResponseFactory $factory,
     StreamFactory $stream,
     View\HtmlFactory $html
 ): HttpResponse => $factory->createResponse()->withBody($stream->createStream($html('index', [
 ]))));
 
-$map->get('terms', '/terms', fn(
+$map->get('terms', '/terms', fn (
     ResponseFactory $factory,
     StreamFactory $stream,
     View\HtmlFactory $html
@@ -43,7 +43,7 @@ $map->get('terms', '/terms', fn(
     ],
 ]))));
 
-$map->get('login', '/login', fn(
+$map->get('login', '/login', fn (
     ResponseFactory $factory,
     StreamFactory $stream,
     View\HtmlFactory $html
@@ -61,9 +61,9 @@ $map->get('login', '/login', fn(
     ],
 ]))));
 
-$map->post('post_terms', '/terms', fn(Http\TermsAgreementAction $action, ServerRequest $request): HttpResponse => $action($request));
+$map->post('post_terms', '/terms', fn (Http\TermsAgreementAction $action, ServerRequest $request): HttpResponse => $action($request));
 
-$map->post('post_login', '/login', fn(Http\LoginAction $action, ServerRequest $request): HttpResponse => $action($request));
+$map->post('post_login', '/login', fn (Http\LoginAction $action, ServerRequest $request): HttpResponse => $action($request));
 
 $map->get('phpinfo', '/phpinfo.php', function (ResponseFactory $factory, StreamFactory $stream) {
     ob_start();
@@ -80,7 +80,7 @@ $map->get('phpini', '/php.ini', function (ResponseFactory $factory, StreamFactor
 
 $map->get('sandbox', '/sandbox', function (ResponseFactory $factory, StreamFactory $stream, View\HtmlFactory $html): HttpResponse {
     return $factory->createResponse()->withBody($stream->createStream($html('sandbox', [
-        'code' => <<<PHP
+        'code' => <<<'PHP'
          <?php declare(strict_types=1);
 
          if (true) if (true) echo 'Hello, world!';
@@ -118,12 +118,12 @@ $map->get('golf', '/golf', function (HoleManager $manager, ResponseFactory $fact
     ])));
 });
 
-$map->post('post_sandbox', '/sandbox', fn(Http\SandboxAction $action, ServerRequest $request): HttpResponse => $action($request));
+$map->post('post_sandbox', '/sandbox', fn (Http\SandboxAction $action, ServerRequest $request): HttpResponse => $action($request));
 
-$map->post('post_golf', '/golf', fn(Http\GolfAction $action, ServerRequest $request): HttpResponse => $action($request));
+$map->post('post_golf', '/golf', fn (Http\GolfAction $action, ServerRequest $request): HttpResponse => $action($request));
 
 $map->get('http.500', '/http/500', function () {
-    throw new \RuntimeException('Expected unexpected Error!');
+    throw new RuntimeException('Expected unexpected Error!');
 });
 
 return $router;

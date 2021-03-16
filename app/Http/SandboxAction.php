@@ -4,17 +4,11 @@ declare(strict_types=1);
 
 namespace Playground\Web\Http;
 
-use function array_unique;
-use function array_values;
 use Aura\Router\Generator as RouteGenerator;
-use Cake\Chronos\Chronos;
-use const PASSWORD_DEFAULT;
 use PhpParser\Error as ParserError;
 use Playground\Code\ParsedCode;
 use Playground\Invoker;
 use Playground\Statistics;
-use Playground\Web\DataSource\MySQL\Password\Password;
-use Playground\Web\DataSource\MySQL\Player\Player;
 use Playground\Web\ParsedCodeFactory;
 use Playground\Web\Session;
 use Playground\Web\View;
@@ -25,6 +19,8 @@ use Psr\Http\Message\StreamFactoryInterface as StreamFactory;
 use RandomLib\Generator as RandomGenerator;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
+use function array_unique;
+use function array_values;
 
 final class SandboxAction
 {
