@@ -1,5 +1,28 @@
 <?php
 
+use function DI\factory;
+use Jose\Component\Core\JWK;
+use Jose\Component\KeyManagement\JWKFactory;
+
 return [
+    'use_https' => false,
+    'cookie_name' => 'phppg-test',
     'is_production' => false,
+    'jose.issuers' => [
+        'issuers' => '',
+    ],
+    'atlas' => [
+        // @see https://www.php.net/manual/ja/pdo.connections.php
+        // 'pdo' => ['mysql:host=localhost;dbname=phppg-test', 'phppg', 'P455w0Rd'],
+        'pdo' => [],
+    ],
+    JWK::class => factory(function (): JWK {
+        return JWKFactory::createOctKey(
+            1024, // Size in bits of the key. We recommend at least 128 bits.
+            [
+                'alg' => 'HS256', // This key must only be used with the HS256 algorithm
+                'use' => 'sig'    // This key is used for signature/verification operations only
+            ]
+        );
+    }),
 ];
