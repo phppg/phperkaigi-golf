@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e420527e39db5685a729f19d5d028d2f",
+    "content-hash": "90630172926f8c854472196336c0f9e3",
     "packages": [
         {
             "name": "akrabat/ip-address-middleware",
@@ -405,16 +405,16 @@
         },
         {
             "name": "bag2/cookie",
-            "version": "v0.6.1",
+            "version": "v0.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bag2php/cookie.git",
-                "reference": "31e273f2f239fd8a07a855d4a07aa50301d1a269"
+                "reference": "5c7b89510b4797b987bccf8e8a535724a752376f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bag2php/cookie/zipball/31e273f2f239fd8a07a855d4a07aa50301d1a269",
-                "reference": "31e273f2f239fd8a07a855d4a07aa50301d1a269",
+                "url": "https://api.github.com/repos/bag2php/cookie/zipball/5c7b89510b4797b987bccf8e8a535724a752376f",
+                "reference": "5c7b89510b4797b987bccf8e8a535724a752376f",
                 "shasum": ""
             },
             "require": {
@@ -423,14 +423,12 @@
                 "psr/http-message": "^1.0"
             },
             "require-dev": {
-                "badoo/soft-mocks": "^3.1",
                 "laminas/laminas-httphandlerrunner": "^1.1",
                 "nikic/php-parser": "^4.13",
                 "nyholm/psr7": "^1.2",
-                "php-http/psr7-integration-tests": "^1.0",
-                "phpunit/phpunit": "^7",
-                "psr/http-factory": "^1.0",
-                "vaimo/composer-patches": "^4.22"
+                "php-http/psr7-integration-tests": "^1.1",
+                "phpunit/phpunit": "^9.5",
+                "psr/http-factory": "^1.0"
             },
             "type": "library",
             "extra": {
@@ -458,7 +456,7 @@
             "description": "Cookie functions over PSR-7 and setcookie() function.",
             "support": {
                 "issues": "https://github.com/bag2php/cookie/issues",
-                "source": "https://github.com/bag2php/cookie/tree/v0.6.1"
+                "source": "https://github.com/bag2php/cookie/tree/v0.7.0"
             },
             "funding": [
                 {
@@ -470,7 +468,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-11-01T21:39:25+00:00"
+            "time": "2022-02-13T12:58:15+00:00"
         },
         {
             "name": "brick/math",
@@ -1688,23 +1686,23 @@
         },
         {
             "name": "php-playgrround/playground",
-            "version": "v0.3.3",
+            "version": "v0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phppg/playground.git",
-                "reference": "4b7821d40c1402263b9320fb51ff052e4aa7fd19"
+                "reference": "0e86fd30ea2de4497d2d82a2d38b29643f33964a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phppg/playground/zipball/4b7821d40c1402263b9320fb51ff052e4aa7fd19",
-                "reference": "4b7821d40c1402263b9320fb51ff052e4aa7fd19",
+                "url": "https://api.github.com/repos/phppg/playground/zipball/0e86fd30ea2de4497d2d82a2d38b29643f33964a",
+                "reference": "0e86fd30ea2de4497d2d82a2d38b29643f33964a",
                 "shasum": ""
             },
             "require": {
                 "nikic/php-parser": "^4.3",
-                "php": "^7.4 || ^8.0",
-                "symfony/console": "^4.2 || ^5.0 || ^6.0",
-                "symfony/process": "^5.0 || ^6.0",
+                "php": ">=7.4",
+                "symfony/console": "^6.0",
+                "symfony/process": "^6.0",
                 "thecodingmachine/safe": "^1.0 || ^2.1"
             },
             "require-dev": {
@@ -1730,9 +1728,9 @@
             ],
             "support": {
                 "issues": "https://github.com/phppg/playground/issues",
-                "source": "https://github.com/phppg/playground/tree/v0.3.3"
+                "source": "https://github.com/phppg/playground/tree/v0.4.0"
             },
-            "time": "2022-02-13T11:10:21+00:00"
+            "time": "2022-02-13T11:35:19+00:00"
         },
         {
             "name": "psr/container",
